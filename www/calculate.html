@@ -7,48 +7,54 @@
 </head>
 <body>
 
-<p id="single_rate_price" style="display: none;">0</p>
-<p id="daily_rate_price" style="display: none;">0</p>
-<p id="night_rate_price" style="display: none;">0</p>
-<p id="peak_zone_rate_price" style="display: none;">0</p>
-<p id="semipeak_zone_rate_price" style="display: none;">0</p>
-<p id="night_zone_rate_price" style="display: none;">0</p>
+<p class="single_rate_price" style="display: none;">0</p>
+<p class="daily_rate_price" style="display: none;">0</p>
+<p class="night_rate_price" style="display: none;">0</p>
+<p class="peak_zone_rate_price" style="display: none;">0</p>
+<p class="semipeak_zone_rate_price" style="display: none;">0</p>
+<p class="night_zone_rate_price" style="display: none;">0</p>
 
 <h2>Расчёт суммы</h2>
 
 <form>
-    <select id="table_selector">
-        <option value="0">Тарифы 1</option>
-        <option value="1">Тарифы 2</option>
-        <option value="2">Тарифы 3</option>
+    <select class="table_selector">
+        <option class="table_selector_null" value="255">Выберите тарифы</option>
+        <option class="table_selector_0" value="0">Тарифы 1</option>
+        <option class="table_selector_1" value="1">Тарифы 2</option>
+        <option class="table_selector_2" value="2">Тарифы 3</option>
     </select>
 </form>
 
-<form id="calculator">
+<form>
     <br>
-    <label for="">Одноставочный тариф</label><br>
-    <input class="" id="prev_single_rate_price" type="number" step=0.01 value="" name="prev_single_rate_price" placeholder="Одноставочный тариф: предыдущие показания"><br>
-    <input class="" id="curr_single_rate_price" type="number" step=0.01 value="" name="curr_single_rate_price" placeholder="Одноставочный тариф: текущие показания"><br><br>
-    <label for="">Результат: <span id="result_single_mode">0</span> руб.</label><br><br>
-    <label for="">Тариф, дифференцированный по 2 зонам суток</label><br>
-    <input class="" id="prev_daily_rate_price" type="number" step=0.01 value="" name="prev_daily_rate_price" placeholder="Дневная зона: предыдущие показания"><br>
-    <input class="" id="curr_daily_rate_price" type="number" step=0.01 value="" name="curr_daily_rate_price" placeholder="Дневная зона: текущие показания"><br><br>
-    <input class="" id="prev_night_rate_price" type="number" step=0.01 value="" name="prev_night_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
-    <input class="" id="curr_night_rate_price" type="number" step=0.01 value="" name="curr_night_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
-    <label for="">Результат: <span id="result_dual_mode">0</span> руб.</label><br><br>
-    <label for="">Тариф, дифференцированный по 3 зонам суток</label><br>
-    <input class="" id="prev_peak_zone_rate_price" type="number" step=0.01 value="" name="prev_peak_zone_rate_price" placeholder="Пиковая зона: предыдущие показания"><br>
-    <input class="" id="curr_peak_zone_rate_price" type="number" step=0.01 value="" name="curr_peak_zone_rate_price" placeholder="Пиковая зона: текущие показания"><br><br>   
-    <input class="" id="prev_semipeak_zone_rate_price" type="number" step=0.01 value="" name="prev_semipeak_zone_rate_price" placeholder="Полупиковая зона: предыдущие показания"><br>
-    <input class="" id="curr_semipeak_zone_rate_price" type="number" step=0.01 value="" name="curr_semipeak_zone_rate_price" placeholder="Полупиковая зона: текущие показания"><br><br>
-    <input class="" id="prev_night_zone_rate_price" type="number" step=0.01 value="" name="prev_night_zone_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
-    <input class="" id="curr_night_zone_rate_price" type="number" step=0.01 value="" name="curr_night_zone_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
-    <label for="">Результат: <span id="result_trial_mode">0</span> руб.</label><br><br>
-    <!-- <button class="upload__button" type="submit">Submit</button> -->
-</form><br>
+    <label>Одноставочный тариф</label><br>
+    <input class="prev_single_rate_price" type="number" step=0.01 value="" name="prev_single_rate_price" placeholder="Одноставочный тариф: предыдущие показания"><br>
+    <input class="curr_single_rate_price" type="number" step=0.01 value="" name="curr_single_rate_price" placeholder="Одноставочный тариф: текущие показания"><br><br>
+    <label>Результат: <span class="result_single_mode">0</span> руб.</label><br><br>
+    <label>Тариф, дифференцированный по 2 зонам суток</label><br>
+    <input class="prev_daily_rate_price" type="number" step=0.01 value="" name="prev_daily_rate_price" placeholder="Дневная зона: предыдущие показания"><br>
+    <input class="curr_daily_rate_price" type="number" step=0.01 value="" name="curr_daily_rate_price" placeholder="Дневная зона: текущие показания"><br><br>
+    <input class="prev_night_rate_price" type="number" step=0.01 value="" name="prev_night_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
+    <input class="curr_night_rate_price" type="number" step=0.01 value="" name="curr_night_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
+    <label>Результат: <span class="result_dual_mode">0</span> руб.</label><br><br>
+    <label>Тариф, дифференцированный по 3 зонам суток</label><br>
+    <input class="prev_peak_zone_rate_price" type="number" step=0.01 value="" name="prev_peak_zone_rate_price" placeholder="Пиковая зона: предыдущие показания"><br>
+    <input class="curr_peak_zone_rate_price" type="number" step=0.01 value="" name="curr_peak_zone_rate_price" placeholder="Пиковая зона: текущие показания"><br><br>   
+    <input class="prev_semipeak_zone_rate_price" type="number" step=0.01 value="" name="prev_semipeak_zone_rate_price" placeholder="Полупиковая зона: предыдущие показания"><br>
+    <input class="curr_semipeak_zone_rate_price" type="number" step=0.01 value="" name="curr_semipeak_zone_rate_price" placeholder="Полупиковая зона: текущие показания"><br><br>
+    <input class="prev_night_zone_rate_price" type="number" step=0.01 value="" name="prev_night_zone_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
+    <input class="curr_night_zone_rate_price" type="number" step=0.01 value="" name="curr_night_zone_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
+    <label>Результат: <span class="result_trial_mode">0</span> руб.</label><br><br>
+    
+</form>
+
+<button class="calculate_button">Расчитать</button><br><br>
 
 <a href="https://www.bashesk.ru/consumer/become-a-customer/tariffs/current/">Справочная информация о тарифах</a><br>
 <a href="./">Вернуться назад</a>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/calculate.js"></script>
 
 </body>
 </html>
