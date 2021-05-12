@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Изменение тарифов — Калькулятор расчёта размера платы за электроснабжение</title>
+</head>
+<body>
+
+<h2>Изменение тарифов</h2>
+
+<form>
+    <select id="table_selector">
+        <option value="0">Тарифы 1</option>
+        <option value="1">Тарифы 2</option>
+        <option value="2">Тарифы 3</option>
+    </select>
+</form>
+
+<form id="rates_form" method="get">
+    <br>
+	<input class="single__rate__price" type="number" step=0.01 value="" name="single_rate_price" placeholder="Одноставочный тариф"><br><br>
+    <input class="daily__rate__price" type="number" step=0.01 value="" name="daily_rate_price" placeholder="Дневная зона"><br>
+    <input class="night__rate__price" type="number" step=0.01 value="" name="night_rate_price" placeholder="Ночная зона"><br><br>
+	<input class="peak__zone__rate__price" type="number" step=0.01 value="" name="peak_zone_rate_price" placeholder="Пиковая зона"><br>
+    <input class="semipeak__zone__rate__price" type="number" step=0.01 value="" name="semipeak_zone_rate_price" placeholder="Полупиковая зона"><br>
+    <input class="night__zone__rate__price" type="number" step=0.01 value="" name="night_zone_rate_price" placeholder="Ночная зона"><br>       
+    <!-- <button class="upload__button" type="submit">Submit</button> -->
+</form><br>
+<a href="./">Вернуться назад</a>
+
+</body>
+</html>
