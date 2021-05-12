@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Регистрация аккаунта — Калькулятор расчёта размера платы за электроснабжение</title>
+</head>
+<body>
+	<div class="wrapper">
+        <h2>Регистрация аккаунта</h2>
+        <p>Для регистрации, пожалуйста, заполните форму ниже</p>
+        <form action="/api/register" method="post">
+            <div class="form-group ">
+                <label>Никнейм</label>
+                <input type="text" name="username" class="form-control" value="">
+                <span class="help-block"></span>
+            </div>  
+            <div class="form-group ">
+                <label>Полное имя</label>
+                <input type="text" name="full_name" class="form-control" value="">
+                <span class="help-block"></span>
+            </div>  
+            <div class="form-group ">
+                <label>E-mail</label>
+                <input type="text" name="email" class="form-control" value="">
+                <span class="help-block"></span>
+            </div>  
+            <div class="form-group ">
+                <label>Пароль</label>
+                <input type="password" name="password" class="form-control" value="">
+                <span class="help-block"></span>
+            </div>
+            <div class="form-group ">
+                <label>Повторите пароль</label>
+                <input type="password" name="confirm_password" class="form-control" value="">
+                <span class="help-block"></span>
+            </div>
+            <div class="form-group ">
+                <input type="submit" class="btn btn-primary" value="Отправить">
+                <input type="reset" class="btn btn-default" value="Сбросить">
+            </div>
+            <p>Уже зарегистрированы? <a href="login.html">Войдите в аккаунт</a>.</p>
+        </form>
+        <a href="../">Вернуться назад</a>
+    </div>    
+</body>
+</html>
