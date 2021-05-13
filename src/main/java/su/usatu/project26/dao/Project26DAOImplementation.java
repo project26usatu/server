@@ -77,7 +77,7 @@ public class Project26DAOImplementation implements Project26DAO {
 	}
 
 	@Override
-	public void addUser(User user, String tableName) {
+	public boolean addUser(User user, String tableName) {
 		try {
 			String sqlInsert = "INSERT INTO users (id, username, password, salt, email, full_name, created_at, group_id, api_token) VALUES (NULL,?,?,?,?,?,UNIX_TIMESTAMP(),?,?)";
 			Connection conn = MySQLJDBCUtil.getConnection();
@@ -91,9 +91,13 @@ public class Project26DAOImplementation implements Project26DAO {
 			pstmt.setString(7, user.getApiToken());
 			pstmt.executeUpdate();
 			pstmt.close();
+
+			return true;
 		} catch (SQLException e) {
 			output = e.getMessage();
 			e.printStackTrace();
+
+			return false;
 		}
 	}
 
@@ -128,7 +132,34 @@ public class Project26DAOImplementation implements Project26DAO {
 	}
 
 	@Override
-	public boolean checkUsernamePassword(User user, String tableName) {
+	public boolean checkDbValueIfUnique(String rowLabel, String value, String tableName) {
+
+		boolean result = true;
+
+		String sqlQuery = "SELECT * FROM " + tableName + " WHERE " + rowLabel + " = '" + value + "'";
+
+		try (Connection conn = MySQLJDBCUtil.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sqlQuery);) {
+
+			while (rs.next()) {
+				result = false;
+				break;
+			}
+
+			// stmt.close(); no need to do, we use try-with-resources
+
+		} catch (SQLException ex) {
+			result = false;
+			output = ex.getMessage();
+			System.out.println(ex.getMessage());
+		}
+
+		return result;
+	}
+
+	@Override
+	public boolean checkLoginPasswordMatch(User user, String tableName) {
 
 		boolean result = false;
 
