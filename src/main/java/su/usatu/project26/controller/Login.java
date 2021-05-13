@@ -42,7 +42,6 @@ public class Login extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		if (!passwordIsCorrect) {
-			// FIXME 500 NullPointerException when specify non-existent username
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Login failed: wrong username or password");
 		} else {
 

@@ -145,19 +145,18 @@ public class Project26DAOImplementation implements Project26DAO {
 			while (rs.next()) {
 
 				userPasswordFromDb = rs.getString("password");
-
 				userSaltFromDb = rs.getString("salt");
+
+				try {
+					result = PasswordUtil.checkPassword(user.getPassword(), userSaltFromDb, userPasswordFromDb);
+				} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+					// TODO Auto-generated catch block
+					output = e.getMessage();
+					e.printStackTrace();
+				}
 
 				break;
 
-			}
-
-			try {
-				result = PasswordUtil.checkPassword(user.getPassword(), userSaltFromDb, userPasswordFromDb);
-			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-				// TODO Auto-generated catch block
-				output = e.getMessage();
-				e.printStackTrace();
 			}
 
 			// stmt.close(); no need to do, we use try-with-resources

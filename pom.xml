@@ -4,15 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>su.usatu.project26</groupId>
 	<artifactId>coursework</artifactId>
-	<version>0.1</version>
+	<version>0.11</version>
 	<packaging>war</packaging>
-	<name>CourseWork26</name>
-	<description>Course work by team 26: Server-side application</description>
+	<name>Project26</name>
+	<description>Course work by team 26: Server-side API application</description>
 	<url>http://maven.apache.org</url>
 	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
 	<build>
 		<finalName>api</finalName>
@@ -26,7 +27,6 @@
 						<source>1.8</source>
 						<target>1.8</target>
 					</configuration>
-
 				</plugin>
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
