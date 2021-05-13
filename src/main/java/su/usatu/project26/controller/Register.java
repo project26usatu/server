@@ -22,52 +22,80 @@ import su.usatu.project26.util.*;
 public class Register extends HttpServlet {
 
 	private Project26DAO dao;
-	String jsonOutput;
 
 	public Register() {
 		dao = new Project26DAOImplementation();
 	}
 
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// GET is not allowed on this page
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		String jsonOutput;
+		
+		jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Operation failed: only POST allowed");
+		
+		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+		out.println(jsonOutput);
+	}
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		String jsonOutput;
+		
 		User user = new User();
 		String salt = PasswordUtil.getSalt();
 
 		user.setUsername(request.getParameter("username"));
-
 		user.setEmail(request.getParameter("email"));
 		user.setFullName(request.getParameter("full_name"));
 
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
 
-		try {
-			String password = request.getParameter("password");
-			String hashedPassword = PasswordUtil.hashPassword(password, salt);
-			String apiKey = TokenUtil.generateNewToken();
-			user.setPassword(hashedPassword);
-			user.setSalt(salt);
-			user.setApiToken(apiKey);
-			dao.addUser(user, "users");
 
-			Cookie cookie = new Cookie("token", apiKey);
-			cookie.setPath("/");
-			cookie.setMaxAge(7 * 24 * 60 * 60);
-			response.addCookie(cookie);
+		boolean usernameIsUnique = dao.checkDbValueIfUnique("username", user.getUsername(), "users");
+		boolean emailIsUnique = dao.checkDbValueIfUnique("email", user.getEmail(), "users");
 
-			// FIXME "Registration successful" when submit already existent username
-			jsonOutput = JsonResponseUtil.formJsonResponse("success", "Registration successful", apiKey);
-			out.println(jsonOutput);
+		if (!usernameIsUnique) {
+			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "The username is already taken");
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} else if (!emailIsUnique) {
+			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "The email address is already taken");
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} else {
 
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			jsonOutput = JsonResponseUtil.formJsonResponse("failure", e.getMessage());
-			e.printStackTrace();
-			out.println(jsonOutput);
+			try {
+				String password = request.getParameter("password");
+				String hashedPassword = PasswordUtil.hashPassword(password, salt);
+				String apiKey = TokenUtil.generateNewToken();
+				user.setPassword(hashedPassword);
+				user.setSalt(salt);
+				user.setApiToken(apiKey);
+
+				boolean userAdded = dao.addUser(user, "users");
+
+				if (!userAdded) {
+					jsonOutput = JsonResponseUtil.formJsonResponse("failure", "SQLException");
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				} else {
+
+					Cookie cookie = new Cookie("token", apiKey);
+					cookie.setPath("/");
+					cookie.setMaxAge(7 * 24 * 60 * 60);
+					response.addCookie(cookie);
+
+					jsonOutput = JsonResponseUtil.formJsonResponse("success", "Registration successful", apiKey);
+				}
+
+			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+				jsonOutput = JsonResponseUtil.formJsonResponse("failure", e.getMessage());
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				e.printStackTrace();
+			}
 		}
 
-	}
-
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		out.println(jsonOutput);
 
 	}
 

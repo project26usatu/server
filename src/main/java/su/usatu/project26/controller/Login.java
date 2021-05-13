@@ -28,34 +28,42 @@ public class Login extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		User user = new User();
-
-		user.setUsername(request.getParameter("username"));
-		String password = request.getParameter("password");
-		user.setPassword(password);
-
-		boolean passwordIsCorrect = dao.checkUsernamePassword(user, "users");
-
-		String jsonOutput;
-
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
+		String jsonOutput;
 
-		if (!passwordIsCorrect) {
-			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Login failed: wrong username or password");
+		User user = new User();
+
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		if (username == "" || password == "") {
+			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Login failed: missing required parameters");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		} else {
 
-			String apiKey = TokenUtil.generateNewToken();
+			user.setPassword(password);
+			user.setUsername(username);
 
-			user.setApiToken(apiKey);
-			dao.assignApiToken(user, "users");
+			boolean passwordIsCorrect = dao.checkLoginPasswordMatch(user, "users");
 
-			Cookie cookie = new Cookie("token", apiKey);
-			cookie.setPath("/");
-			cookie.setMaxAge(7 * 24 * 60 * 60);
-			response.addCookie(cookie);
+			if (!passwordIsCorrect) {
+				jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Login failed: wrong username or password");
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			} else {
 
-			jsonOutput = JsonResponseUtil.formJsonResponse("success", "Success login", apiKey);
+				String apiKey = TokenUtil.generateNewToken();
+
+				user.setApiToken(apiKey);
+				dao.assignApiToken(user, "users");
+
+				Cookie cookie = new Cookie("token", apiKey);
+				cookie.setPath("/");
+				cookie.setMaxAge(7 * 24 * 60 * 60);
+				response.addCookie(cookie);
+
+				jsonOutput = JsonResponseUtil.formJsonResponse("success", "Login successful", apiKey);
+			}
 		}
 
 		out.println(jsonOutput);
@@ -63,7 +71,14 @@ public class Login extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		//GET is not allowed on this page
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		String jsonOutput;
+		
+		jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Operation failed: only POST allowed");
+		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+		out.println(jsonOutput);
 	}
 
 }

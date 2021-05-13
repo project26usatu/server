@@ -26,23 +26,27 @@ public class UserInfo extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		String jsonOutput;
+		
 		String apiKey = request.getParameter("token");
 
 		User user = dao.getUserInfo(apiKey, "users");
-
-		String jsonOutput;
+		
 		if (user.getId() == 0) {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "User Not Found");
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		} else {
 			jsonOutput = JsonResponseUtil.formJsonResponse("success", "User found", user);
 		}
 
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
+
 		out.println(jsonOutput);
 	}
 
-	public void destroy() {
-		// do nothing.
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 	}
+
 }

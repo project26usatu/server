@@ -18,11 +18,6 @@ import su.usatu.project26.util.JsonResponseUtil;
 public class RatesEditor extends HttpServlet {
 
 	private Project26DAO dao;
-	public String message;
-	double[] updatingRates;
-	int i = 0;
-	public String[] tablesArray = { "private_user_prices", "electric_stove_private_user_prices",
-			"alternative_private_user_prices" };
 
 	public RatesEditor() {
 		dao = new Project26DAOImplementation();
@@ -30,9 +25,9 @@ public class RatesEditor extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String jsonOutput;
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
+		String jsonOutput;
 
 		String token = request.getParameter("token");
 		int groupId = dao.getUserGroupByToken(token, "users");
@@ -51,6 +46,9 @@ public class RatesEditor extends HttpServlet {
 		String queriedTableParameter = request.getParameter("table_id");
 		int tableId = Integer.parseInt(queriedTableParameter);
 
+		String[] tablesArray = { "private_user_prices", "electric_stove_private_user_prices",
+				"alternative_private_user_prices" };
+
 		String tableName = tablesArray[tableId];
 
 		String userName = "user";
@@ -61,14 +59,14 @@ public class RatesEditor extends HttpServlet {
 			out.println(jsonOutput);
 		} else {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Access Denied");
-			out.println(jsonOutput);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			out.println(jsonOutput);
 		}
 
 	}
 
-	public void destroy() {
-		// do nothing.
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 	}
 
 }

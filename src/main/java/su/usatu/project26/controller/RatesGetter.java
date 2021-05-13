@@ -19,31 +19,39 @@ public class RatesGetter extends HttpServlet {
 
 	private Project26DAO dao;
 
-	public String[] tablesArray = { "private_user_prices", "electric_stove_private_user_prices",
-			"alternative_private_user_prices" };
-
 	public RatesGetter() {
 		dao = new Project26DAOImplementation();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// SqlConnTest sqlTest = new SqlConnTest();
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		String jsonOutput;
 
 		String queriedTableParameter = request.getParameter("table_id");
 		int queriedTableId = Integer.parseInt(queriedTableParameter);
 
+		String[] tablesArray = { "private_user_prices", "electric_stove_private_user_prices",
+				"alternative_private_user_prices" };
+
 		Rates ratesOutput = dao.selectRates(tablesArray[queriedTableId]);
 
-		String jsonOutput = JsonResponseUtil.formJsonResponse("success", "Found", ratesOutput);
+		jsonOutput = JsonResponseUtil.formJsonResponse("success", "Found", ratesOutput);
 
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
 		out.println(jsonOutput);
 	}
 
-	public void destroy() {
-		// do nothing.
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// POST is not allowed on this page
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		String jsonOutput;
+		
+		jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Operation failed: only GET allowed");
+		
+		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+		out.println(jsonOutput);
 	}
 
 }
