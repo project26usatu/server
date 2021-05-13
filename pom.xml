@@ -6,12 +6,10 @@
 	<artifactId>coursework</artifactId>
 	<version>0.11</version>
 	<packaging>war</packaging>
-	<name>Project26</name>
+	<name>Project26API</name>
 	<description>Course work by team 26: Server-side API application</description>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -59,11 +57,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
-			<version>2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
