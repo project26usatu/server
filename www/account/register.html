@@ -8,40 +8,27 @@
 <body>
 	<div class="wrapper">
         <h2>Регистрация аккаунта</h2>
-        <p>Для регистрации, пожалуйста, заполните форму ниже</p>
-        <form action="/api/register" method="post">
-            <div class="form-group ">
-                <label>Никнейм</label>
-                <input type="text" name="username" class="form-control" value="">
-                <span class="help-block"></span>
-            </div>  
-            <div class="form-group ">
-                <label>Полное имя</label>
-                <input type="text" name="full_name" class="form-control" value="">
-                <span class="help-block"></span>
-            </div>  
-            <div class="form-group ">
-                <label>E-mail</label>
-                <input type="text" name="email" class="form-control" value="">
-                <span class="help-block"></span>
-            </div>  
-            <div class="form-group ">
-                <label>Пароль</label>
-                <input type="password" name="password" class="form-control" value="">
-                <span class="help-block"></span>
-            </div>
-            <div class="form-group ">
-                <label>Повторите пароль</label>
-                <input type="password" name="confirm_password" class="form-control" value="">
-                <span class="help-block"></span>
-            </div>
-            <div class="form-group ">
-                <input type="submit" class="btn btn-primary" value="Отправить">
-                <input type="reset" class="btn btn-default" value="Сбросить">
-            </div>
-            <p>Уже зарегистрированы? <a href="login.html">Войдите в аккаунт</a>.</p>
+        <p>Для регистрации, пожалуйста, заполните форму</p>
+        <form>
+            <label>Никнейм</label>
+            <input type="text" name="username" class="register__username__input" value="" required><br>
+            <label>Полное имя</label>
+            <input type="text" name="full_name" class="register__fullname__input" value="" required><br>
+            <label>E-mail</label>
+            <input type="text" name="email" class="register__email__input" value="" required><br>
+            <label>Пароль</label>
+            <input type="password" name="password" class="register__password__input" value="" required><br>
+            <label>Повторите пароль</label>
+            <input type="password" name="confirm_password" class="register__repeat__password__input" value="" required><br>
+            <input type="reset" class="register__reset__button" value="Сбросить">
         </form>
+        <input type="submit" class="register__submit__input" value="Отправить">
+        <p>Уже зарегистрированы? <a href="login.html">Войдите в аккаунт</a>.</p>
         <a href="../">Вернуться назад</a>
-    </div>    
+    </div>
+
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/register.js"></script>
 </body>
 </html>
