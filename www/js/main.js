@@ -4,10 +4,10 @@ function importJsonToEditForm(url){
     	const ratesArray = [];
         $.each(data, function(key, val) {
 
-         ratesArray.push(val);
+           ratesArray.push(val);
 
-     });
-
+       });
+        //в ratesArray[2] находится запрашиваемый у api объект (responseBody)
         let jsonWithData = ratesArray[2];
         $('.single__rate__price').val(jsonWithData.single_rate_price);
         $('.daily__rate__price').val(jsonWithData.daily_rate_price);
@@ -27,7 +27,7 @@ function importJsonToInfoPage(url){
             ratesArray.push(val);
 
         });
-
+        //в ratesArray[2] находится запрашиваемый у api объект
         let jsonWithData = ratesArray[2];
         $('.single__rate__price').html(jsonWithData.single_rate_price);
         $('.daily__rate__price').html(jsonWithData.daily_rate_price);
@@ -40,18 +40,16 @@ function importJsonToInfoPage(url){
 }
 //вызов importJsonToEditForm со сформированными параметрами
 function getDataForEditForm(){
-    let tableId = $("#table_selector").val();
-    let ratesGetterUrl = '/api/get_prices?table_id=' + tableId;
+    let ratesId = $(".rates__selector").val();
+    let ratesGetterUrl = '/api/get_prices?rates_set_id=' + ratesId;
     importJsonToEditForm(ratesGetterUrl);
 }
 //вызов importJsonToInfoPage со сформированными параметрами
 function getDataForInfoPage(){
-    let tableId = $("#table_selector").val();
-    let ratesGetterUrl = '/api/get_prices?table_id=' + tableId;
+    let ratesId = $("#table_selector").val();
+    let ratesGetterUrl = '/api/get_prices?rates_set_id=' + ratesId;
     importJsonToInfoPage(ratesGetterUrl);
 }
-
-//TODO: Restict negative numbers input
 //проверка пустого значения (переменная)
 function isEmpty(value){
     return (value == null || value.length === 0);
@@ -69,51 +67,6 @@ function throwAccessDeniedError(){
 
     throw new Error(errorMessage);
     return 0;
-}
-//обновление тарифа, формируем данные и отправляем запрос
-function updateRates(tokenCookie){
-
-    let specifiedSingleRatePrice = $(".single__rate__price").val();
-
-    let specifiedDailyRatePrice= $(".daily__rate__price").val();
-    let specifiedNightRatePrice = $(".night__rate__price").val();
-
-    let specifiedPeakZoneRatePrice = $(".peak__zone__rate__price").val();
-    let specifiedSemipeakZoneRatePrice = $(".semipeak__zone__rate__price").val();
-    let specifiedNightZoneRatePrice = $(".night__zone__rate__price").val();
-
-    let tableId = $("#table_selector").val();
-    //проверяем пустые поля
-    isEmpty(specifiedSingleRatePrice) && throwUserInputError();
-    isEmpty(specifiedDailyRatePrice) && throwUserInputError();
-    isEmpty(specifiedNightRatePrice) && throwUserInputError();
-    isEmpty(specifiedPeakZoneRatePrice) && throwUserInputError();
-    isEmpty(specifiedSemipeakZoneRatePrice) && throwUserInputError();
-    isEmpty(specifiedNightZoneRatePrice) && throwUserInputError();
-
-    //TODO: add isNumeric check
-
-    $.ajax({
-        url: '/api/edit_prices',     
-        type: 'GET',
-        data : {
-            token : tokenCookie,
-            single_rate_price : specifiedSingleRatePrice,
-            daily_rate_price: specifiedDailyRatePrice,
-            night_rate_price: specifiedNightRatePrice,
-            peak_zone_rate_price: specifiedPeakZoneRatePrice,
-            semipeak_zone_rate_price: specifiedSemipeakZoneRatePrice,
-            night_zone_rate_price: specifiedNightZoneRatePrice,
-            table_id: tableId
-        },
-        dataType: 'json',                   
-        success: function(data)
-        {
-      //alert ("Edit successful");
-  } 
-
-})
-
 }
 //получить значение куки (имя атрибута)
 function getCookie(cname) {

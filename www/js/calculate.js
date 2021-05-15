@@ -11,59 +11,42 @@ function roundNumber(num, scale) {
 		return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
 	}
 }
-//получение json с тарифами и запись в скрытые теги <p> (адрес api, id таблицы)
-function importJsonToInfoPage(url, tableId){
-	$.getJSON(url + "?table_id=" + tableId, function(data) {
-		const ratesArray = [];
-		$.each(data, function(key, val) {
-
-			ratesArray.push(val);
-
-		});
-		//в ratesArray[2] находится запрашиваемый у api объект
-		let jsonWithData = ratesArray[2];
-		$('.single_rate_price').html(jsonWithData.single_rate_price);
-		$('.daily_rate_price').html(jsonWithData.daily_rate_price);
-		$('.night_rate_price').html(jsonWithData.night_rate_price);
-
-		$('.peak_zone_rate_price').html(jsonWithData.peak_zone_rate_price);
-		$('.semipeak_zone_rate_price').html(jsonWithData.semipeak_zone_rate_price);
-		$('.night_zone_rate_price').html(jsonWithData.night_zone_rate_price);
-	});
-}
 //запись тарифов в скрытые теги <p> с указанием нужной таблицы и адреса api
 function writeRatesToHiddenTags(){
 	//получение id таблицы из выпадающего меню
-
-	let tableId = $('.table_selector').val();
-
-	importJsonToInfoPage('/api/get_prices', tableId);
+	let ratesId = $(".rates__selector").val();
+	let ratesGetterUrl = '/api/get_prices?rates_set_id=' + ratesId;
+	importJsonToInfoPage(ratesGetterUrl);
 }
 //инициализация(обновление) расчётов блока с одноставочным тарифом
 function updateSingleModeForms(){
-	let singleRatePrice = parseFloat($('.single_rate_price').html());
+	let result = 0;
 
-	let prevMeterReading = parseFloat($('.prev_single_rate_price').val());
-	let currMeterReading = parseFloat($('.curr_single_rate_price').val());
+	let singleRatePrice = parseFloat($('.single__rate__price').html());
+
+	let prevMeterReading = parseFloat($('.prev__single__rate__price').val());
+	let currMeterReading = parseFloat($('.curr__single__rate__price').val());
 	if (prevMeterReading > currMeterReading) {
 		alert("Предыдущие показания не могут быть больше текущих!");
 	} else {
 		let consuptionInKwt = currMeterReading - prevMeterReading;
 		let result = consuptionInKwt * singleRatePrice;
 		result = roundNumber(result, 2);
-		$('.result_single_mode').html(result);
+		$('.result__single__mode').html(result);
 	}
 }
 //инициализация(обновление) расчётов блока с двухставочным тарифом
 function updateDualModeForms(){
-	let dailyRatePrice = parseFloat($('.daily_rate_price').html());
-	let nightRatePrice = parseFloat($('.night_rate_price').html());
+	let result = 0;
+
+	let dailyRatePrice = parseFloat($('.daily__rate__price').html());
+	let nightRatePrice = parseFloat($('.night__rate__price').html());
 
 
-	let prevDayMeterReading = parseFloat($('.prev_daily_rate_price').val());
-	let currDayMeterReading = parseFloat($('.curr_daily_rate_price').val());
-	let prevNightMeterReading = parseFloat($('.prev_night_rate_price').val());
-	let currNightMeterReading = parseFloat($('.curr_night_rate_price').val());
+	let prevDayMeterReading = parseFloat($('.prev__daily__rate__price').val());
+	let currDayMeterReading = parseFloat($('.curr__daily__rate__price').val());
+	let prevNightMeterReading = parseFloat($('.prev__night__rate__price').val());
+	let currNightMeterReading = parseFloat($('.curr__night__rate__price').val());
 	if ((prevDayMeterReading > currDayMeterReading) || (prevNightMeterReading > currNightMeterReading)) {
 		alert("Предыдущие показания не могут быть больше текущих!");
 	} else {
@@ -71,22 +54,24 @@ function updateDualModeForms(){
 		let nightConsuptionInKwt = currNightMeterReading - prevNightMeterReading;
 		let result = (dailyConsuptionInKwt * dailyRatePrice) + (nightConsuptionInKwt * nightRatePrice);
 		result = roundNumber(result, 2);
-		$('.result_dual_mode').html(result);
+		$('.result__dual__mode').html(result);
 	}
 }
 //инициализация(обновление) расчётов блока с трехставочным тарифом
 function updateTrialModeForms(){
-	let peakZoneRatePrice = parseFloat($('.peak_zone_rate_price').html());
-	let semipeakZoneRatePrice = parseFloat($('.semipeak_zone_rate_price').html());
-	let nightZoneRatePrice = parseFloat($('.night_zone_rate_price').html());
+	//let result = 0;
+
+	let peakZoneRatePrice = parseFloat($('.peak__zone__rate__price').html());
+	let semipeakZoneRatePrice = parseFloat($('.semipeak__zone__rate__price').html());
+	let nightZoneRatePrice = parseFloat($('.night__zone__rate__price').html());
 
 
-	let prevPeakZoneMeterReading = parseFloat($('.prev_peak_zone_rate_price').val());
-	let currPeakZoneMeterReading = parseFloat($('.curr_peak_zone_rate_price').val());
-	let prevSemipeakZoneMeterReading = parseFloat($('.prev_semipeak_zone_rate_price').val());
-	let currSemipeakZoneMeterReading = parseFloat($('.curr_semipeak_zone_rate_price').val());
-	let prevNightZoneMeterReading = parseFloat($('.prev_night_zone_rate_price').val());
-	let currNightZoneMeterReading = parseFloat($('.curr_night_zone_rate_price').val());
+	let prevPeakZoneMeterReading = parseFloat($('.prev__peak__zone__rate__price').val());
+	let currPeakZoneMeterReading = parseFloat($('.curr__peak__zone__rate__price').val());
+	let prevSemipeakZoneMeterReading = parseFloat($('.prev__semipeak__zone__rate__price').val());
+	let currSemipeakZoneMeterReading = parseFloat($('.curr__semipeak__zone__rate__price').val());
+	let prevNightZoneMeterReading = parseFloat($('.prev__night__zone__rate__price').val());
+	let currNightZoneMeterReading = parseFloat($('.curr__night__zone__rate__price').val());
 
 	if ((prevPeakZoneMeterReading > currPeakZoneMeterReading) || (prevSemipeakZoneMeterReading > currSemipeakZoneMeterReading) || (prevNightZoneMeterReading > currNightZoneMeterReading)) {
 		alert("Предыдущие показания не могут быть больше текущих!");
@@ -96,20 +81,20 @@ function updateTrialModeForms(){
 		let nightZoneConsuptionInKwt = currNightZoneMeterReading - prevNightZoneMeterReading;
 		let result = (peakZoneConsuptionInKwt * peakZoneRatePrice) + (SemipeakZoneConsuptionInKwt * semipeakZoneRatePrice) + (nightZoneConsuptionInKwt * nightZoneRatePrice);
 		result = roundNumber(result, 2);
-		$('.result_trial_mode').html(result);
+		$('.result__trial__mode').html(result);
 	}
 }
 
 //слушатели (обновление результатов при взаимодействии):
 //выпадающее меню
-$('.table_selector').change(function() {
+$('.rates__selector').change(function() {
 	writeRatesToHiddenTags();
 
 });
 //кнопка рассчёта
-$('.calculate_button').click(function() {
-	let tableId = $('.table_selector').val();
-	if (tableId == 255){
+$('.calculate__button').click(function() {
+	let ratesId = $('.rates__selector').val();
+	if (ratesId == 0){
 		alert ("Выберите подходящую категорию тарифов")
 	} else {
 		updateSingleModeForms();
