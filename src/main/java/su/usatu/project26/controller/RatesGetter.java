@@ -29,15 +29,30 @@ public class RatesGetter extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String jsonOutput;
 
-		String queriedTableParameter = request.getParameter("table_id");
-		int queriedTableId = Integer.parseInt(queriedTableParameter);
+		int rateSetId;
 
-		String[] tablesArray = { "private_user_prices", "electric_stove_private_user_prices",
-				"alternative_private_user_prices" };
+		if (request.getParameter("rates_set_id").trim().isEmpty()) {
 
-		Rates ratesOutput = dao.selectRates(tablesArray[queriedTableId]);
+			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "'rates_set_id' parameter is required");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
-		jsonOutput = JsonResponseUtil.formJsonResponse("success", "Found", ratesOutput);
+		} else {
+			String ratesIdinString = request.getParameter("rates_set_id");
+			rateSetId = Integer.parseInt(ratesIdinString);
+
+			if (!(rateSetId >= 1 && rateSetId < 4)) {
+
+				jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Inconsistent 'rates_set_id' parameter");
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+			} else {
+
+				Rates selectedRates = dao.getRatesById(rateSetId);
+
+				jsonOutput = JsonResponseUtil.formJsonResponse("success", "Found", selectedRates);
+
+			}
+		}
 
 		out.println(jsonOutput);
 	}
@@ -47,9 +62,9 @@ public class RatesGetter extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		String jsonOutput;
-		
+
 		jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Operation failed: only GET allowed");
-		
+
 		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
 		out.println(jsonOutput);
 	}

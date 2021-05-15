@@ -34,6 +34,8 @@ public class RatesEditor extends HttpServlet {
 
 		Rates rates = new Rates();
 
+		rates.id = Integer.parseInt(request.getParameter("rates_set_id"));
+		
 		rates.single_rate_price = Double.parseDouble(request.getParameter("single_rate_price"));
 
 		rates.daily_rate_price = Double.parseDouble(request.getParameter("daily_rate_price"));
@@ -43,18 +45,10 @@ public class RatesEditor extends HttpServlet {
 		rates.semipeak_zone_rate_price = Double.parseDouble(request.getParameter("semipeak_zone_rate_price"));
 		rates.night_zone_rate_price = Double.parseDouble(request.getParameter("night_zone_rate_price"));
 
-		String queriedTableParameter = request.getParameter("table_id");
-		int tableId = Integer.parseInt(queriedTableParameter);
-
-		String[] tablesArray = { "private_user_prices", "electric_stove_private_user_prices",
-				"alternative_private_user_prices" };
-
-		String tableName = tablesArray[tableId];
-
-		String userName = "user";
+		String username = "user";
 
 		if (groupId == 1) {
-			dao.editRates(rates, tableName, userName);
+			dao.editRates(rates, username);
 			jsonOutput = JsonResponseUtil.formJsonResponse("success", "Изменения внесены", null);
 			out.println(jsonOutput);
 		} else {

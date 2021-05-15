@@ -59,10 +59,10 @@ public class Register extends HttpServlet {
 
 		if (!usernameIsUnique) {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "The username is already taken");
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
 		} else if (!emailIsUnique) {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "The email address is already taken");
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
 		} else {
 
 			try {
