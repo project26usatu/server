@@ -6,26 +6,22 @@
 	<title>Вход в аккаунт — Калькулятор расчёта размера платы за электроснабжение</title>
 </head>
 <body>
-	 <div class="wrapper">
+    <div class="wrapper">
         <h2>Вход в систему</h2>
         <p>Для входа в систему, введите данные аккаунта в форму ниже</p>
-        <form action="/api/login" method="post">
-            <div class="form-group">
-                <label>Никнейм</label>
-                <input type="text" name="username" class="form-control" value="">
-                <span class="help-block"></span>
-            </div>    
-            <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" name="password" class="form-control">
-                <span class="help-block"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Войти">
-            </div>
-            <p>Нет аккаунта? <a href="register.html">Пройдите регистрацию</a>.</p>
-        </form>
+        <form>
+            <label>Никнейм</label>
+            <input type="text" name="username" class="login__username__input" value="" required><br>
+            <label>Пароль</label>
+            <input type="password" name="password" class="login__password__input" required>
+        </form><br>
+        <input type="submit" class="login__submit__input" value="Войти">
+        <p>Нет аккаунта? <a href="register.html">Пройдите регистрацию</a>.</p>
         <a href="../">Вернуться назад</a>
-    </div>    
+    </div>
+
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/login.js"></script>
 </body>
 </html>
