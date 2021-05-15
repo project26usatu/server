@@ -2,7 +2,7 @@ package su.usatu.project26.model;
 
 public class Rates {
 	
-	// Переменные для хранения тарифов
+	public int id; //идентификатор группы тарифов
 	
 	public double single_rate_price; // Одноставочный тариф
 	

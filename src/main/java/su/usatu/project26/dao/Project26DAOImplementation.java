@@ -19,16 +19,18 @@ public class Project26DAOImplementation implements Project26DAO {
 	String output = null;
 
 	@Override
-	public Rates selectRates(String tableName) {
+	public Rates getRatesById(int id) {
 		Rates rates = new Rates();
 
-		String sqlQuery = "SELECT * FROM " + tableName + " WHERE id = 1";
+		String sqlQuery = "SELECT * FROM rates WHERE rates_set_id = " + id + ";" ;
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sqlQuery);) {
 
 			while (rs.next()) {
+				
+				rates.id = rs.getInt("rates_set_id");
 
 				rates.single_rate_price = rs.getDouble("single_rate_price");
 
@@ -43,8 +45,6 @@ public class Project26DAOImplementation implements Project26DAO {
 
 			}
 
-			// stmt.close(); no need to do, we use try-with-resources
-
 		} catch (SQLException ex) {
 			output = ex.getMessage();
 			System.out.println(ex.getMessage());
@@ -55,13 +55,13 @@ public class Project26DAOImplementation implements Project26DAO {
 	}
 
 	@Override
-	public void editRates(Rates updatingRates, String tableName, String userName) {
-		String sqlUpdate = "UPDATE " + tableName + " SET updated_at = UNIX_TIMESTAMP(), updated_by = '" + userName
+	public void editRates(Rates updatingRates, String editorName) {
+		String sqlUpdate = "UPDATE rates SET updated_at = UNIX_TIMESTAMP(), updated_by = '" + editorName
 				+ "', single_rate_price = " + updatingRates.single_rate_price + ", daily_rate_price = "
 				+ updatingRates.daily_rate_price + ", night_rate_price = " + updatingRates.night_rate_price
 				+ ", peak_zone_rate_price = " + updatingRates.peak_zone_rate_price + ", semipeak_zone_rate_price = "
 				+ updatingRates.semipeak_zone_rate_price + ", night_zone_rate_price = "
-				+ updatingRates.night_zone_rate_price + " WHERE id = 1 ;";
+				+ updatingRates.night_zone_rate_price + " WHERE rates_set_id = " + updatingRates.id + " ;";
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
@@ -121,8 +121,6 @@ public class Project26DAOImplementation implements Project26DAO {
 
 			}
 
-			// stmt.close(); no need to do, we use try-with-resources
-
 		} catch (SQLException ex) {
 			output = ex.getMessage();
 			System.out.println(ex.getMessage());
@@ -146,8 +144,6 @@ public class Project26DAOImplementation implements Project26DAO {
 				result = false;
 				break;
 			}
-
-			// stmt.close(); no need to do, we use try-with-resources
 
 		} catch (SQLException ex) {
 			result = false;
@@ -189,8 +185,6 @@ public class Project26DAOImplementation implements Project26DAO {
 				break;
 
 			}
-
-			// stmt.close(); no need to do, we use try-with-resources
 
 		} catch (SQLException ex) {
 			output = ex.getMessage();
