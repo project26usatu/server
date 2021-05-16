@@ -1,4 +1,6 @@
+//берем куки токена
 let tokenCookie = getCookie("token"); 
-console.log(tokenCookie);
-
-deleteCookie();
+//если куки токена есть - удаляем
+if (tokenCookie) deleteCookie();
+//отправляем на главную
+window.location.replace("../");

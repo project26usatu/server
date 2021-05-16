@@ -7,10 +7,10 @@ function checkPasswords(){
     isEmpty(repeatedPassword.trim()) && throwUserInputError();
 
     if (password == repeatedPassword) {
-      return true;
-  } else {
-      alert ("Пароли не совпадают");
-      return false;
+        return true;
+    } else {
+        alert ("Пароли не совпадают");
+    return false;
   }
 }
 //проверка и отправка данных из формы POST методом в /api/register
@@ -47,16 +47,21 @@ function register(){
       			//Занятый логин или email (при ошибке 409)
       			//Получаем ответ сервера в JSON
       			let json = error.responseJSON;
-                
-                alert(json.errorMessage);
-            }
+
+            alert(json.errorMessage);
+          }
         },
-    })
+      })
 
 }
-
+//проверка авторизации. если юзер авторизован, отправить его на главную
+let tokenCookie = getCookie("token"); 
+if (tokenCookie) {
+    alert("В данный момент вы авторизованы. Вам необходимо выйти из аккаунта");
+    window.location.replace("../");
+}
 //слушатель кнопки "отправить"
 $('.register__submit__input').click(function() {
-	let passwordsAreEqual = checkPasswords();
-	if (passwordsAreEqual) register();
+        let passwordsAreEqual = checkPasswords();
+        if (passwordsAreEqual) register();
 });
