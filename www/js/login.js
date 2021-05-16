@@ -25,13 +25,18 @@ function login(){
         statusCode: {
         	401: function(data) {
                 //Неудачный логин (при ошибке 401)
-                alert("Неправильный логин/пароль");
-            }
+         		alert("Неправильный логин/пароль");
+      	}
         },
     })
 
 }
-
+//если юзер уже авторизован, отправить его на главную
+let tokenCookie = getCookie("token"); 
+if (tokenCookie) {
+    alert("В данный момент вы уже авторизованы. Вам необходимо выйти из аккаунта");
+    window.location.replace("../");
+}
 //слушатель кнопки "отправить"
 $('.login__submit__input').click(function() {
     login();
