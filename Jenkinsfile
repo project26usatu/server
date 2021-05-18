@@ -6,21 +6,9 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                echo 'Cleaning up workspace for project...'
-                cleanWs()
-                echo 'Checking out project from GitHub repository...'
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/main']], 
-                    userRemoteConfigs: [[url: 'https://github.com/abramov26/project26-server.git']]
-                ])
-            }
-        }
         stage('Build'){
             steps {
-                echo 'Building project...'
+                echo 'Building Project...'
                 withMaven(maven : 'apache-maven-3.8.1') {
                     sh 'mvn -DskipTests=true clean package'
                 }
