@@ -1,5 +1,6 @@
 # Калькулятор расчёта размера платы за электроснабжение
 [![Build Status](https://travis-ci.com/abramov26/project26-server.svg?branch=main)](https://travis-ci.com/abramov26/project26-server)
+[![Build Status](https://project26.usatu.su/jenkins/buildStatus/icon?job=Project26_CID)](https://project26.usatu.su/jenkins/job/Project26_CID/)
 
 ## Описание репозитория
 
