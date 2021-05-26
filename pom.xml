@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>su.usatu.project26</groupId>
 	<artifactId>api</artifactId>
-	<version>0.11</version>
+	<version>0.2</version>
 	<packaging>war</packaging>
 	<name>Project26API</name>
 	<description>Course work by team 26: Server-side API application</description>
@@ -67,6 +67,16 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.24</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.vandeseer</groupId>
+			<artifactId>easytable</artifactId>
+			<version>0.8.3</version>
 		</dependency>
 	</dependencies>
 </project>
