@@ -1,5 +1,6 @@
 package su.usatu.project26.dao;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -8,11 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 
 import su.usatu.project26.model.*;
 
 import su.usatu.project26.util.MySQLJDBCUtil;
+import su.usatu.project26.util.PDFUtil;
 import su.usatu.project26.util.PasswordUtil;
+import su.usatu.project26.util.StringUtil;
 
 public class Project26DAOImplementation implements Project26DAO {
 
@@ -177,7 +181,6 @@ public class Project26DAOImplementation implements Project26DAO {
 				try {
 					result = PasswordUtil.checkPassword(user.getPassword(), userSaltFromDb, userPasswordFromDb);
 				} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-					// TODO Auto-generated catch block
 					output = e.getMessage();
 					e.printStackTrace();
 				}
@@ -246,6 +249,27 @@ public class Project26DAOImplementation implements Project26DAO {
 
 		return groupId;
 
+	}
+	
+	@Override
+	public String createPdfReport(ReportData dataForPDF) throws IllegalStateException, IOException {
+		
+		final String WWW_DIR = "/srv/nginx/";
+		final String CONTENT_DIR = "/user-content/";
+		final String FONTS_DIR = WWW_DIR + CONTENT_DIR + "/fonts/";
+		final String IMG_DIR = WWW_DIR + CONTENT_DIR + "/img/";
+		
+		byte[] array = new byte[16]; // length is bounded by 16
+	    new Random().nextBytes(array);
+	    String newPdfName = StringUtil.generateRandomString();
+		
+		String userAccessPath = CONTENT_DIR + newPdfName + ".pdf";
+		String savingPath = WWW_DIR + userAccessPath;
+		if (PDFUtil.generateNewPDF(dataForPDF, FONTS_DIR, IMG_DIR, savingPath)) {
+			return userAccessPath;
+		} else {
+			return "Failed";
+		}
 	}
 
 }
