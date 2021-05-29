@@ -76,10 +76,6 @@ public class PDFUtil {
 
 				contentStream.endText();
 				
-				// data to put
-				
-				
-				
 				// table
 				// Build calculationTable
 				Table calculationTable = Table.builder().addColumnsOfWidth(150, 150, 150).font(timesRegular).padding(2)
