@@ -249,10 +249,12 @@ $('.calculation__form').find("input").val('');
 //выпадающее меню выбора тарифных ставок
 $('.rates__selector').change(function() {
 	writeRatesToHiddenTags();
+	successCalculation = false;
 
 });
 //выпадающее меню выбора типа счётчика
 $('.meter__mode__selector').change(function() {
+	successCalculation = false;
 	if ($(this).find(":selected").val() == 1) {
 		$('.single__rates__div').show();
 		$('.dual__rates__div').hide();
