@@ -17,47 +17,49 @@
     <h2>Расчёт суммы оплаты за электроснабжение</h2>
 
     <h3>Значения вводятся в кВт*ч</h3>
-
-    <select class="rates__selector">
-        <option class="table__selector__0" value="0">Выберите категорию тарифов</option>
-        <option class="table__selector__1" value="1">Тарифы 1</option>
-        <option class="table__selector__2" value="2">Тарифы 2</option>
-        <option class="table__selector__3" value="3">Тарифы 3</option>
-    </select>
-    <br><br>
-    <select class="meter__mode__selector">
-        <option class="meter__mode__selector__0" value="0">Выберите тип прибора учёта</option>
-        <option class="meter__mode__selector__1" value="1">Однотарфный</option>
-        <option class="meter__mode__selector__2" value="2">Двухзонный</option>
-        <option class="meter__mode__selector__3" value="3">Трёхзонный</option>
-    </select>
-    <br><br>
     
-    <div class = "single__rates__div" style="display: none;">
-        <br>
-        <label>Одноставочный тариф</label><br>
-        <input class="prev__single__rate__price" type="number" step=1 value="" name="prev_single_rate_price" placeholder="Одноставочный тариф: предыдущие показания"><br>
-        <input class="curr__single__rate__price" type="number" step=1 value="" name="curr_single_rate_price" placeholder="Одноставочный тариф: текущие показания"><br><br>
-        <label>Результат: <span class="result__single__mode">0</span> руб.</label><br><br>
-    </div>
-    <div class = "dual__rates__div" style="display: none;">
-        <label>Тариф, дифференцированный по 2 зонам суток</label><br>
-        <input class="prev__daily__rate__price" type="number" step=1 value="" name="prev_daily_rate_price" placeholder="Дневная зона: предыдущие показания"><br>
-        <input class="curr__daily__rate__price" type="number" step=1 value="" name="curr_daily_rate_price" placeholder="Дневная зона: текущие показания"><br><br>
-        <input class="prev__night__rate__price" type="number" step=1 value="" name="prev_night_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
-        <input class="curr__night__rate__price" type="number" step=1 value="" name="curr_night_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
-        <label>Результат: <span class="result__dual__mode">0</span> руб.</label><br><br>
-    </div>
-    <div class = "trial__rates__div" style="display: none;">
-        <label>Тариф, дифференцированный по 3 зонам суток</label><br>
-        <input class="prev__peak__zone__rate__price" type="number" step=1 value="" name="prev_peak_zone_rate_price" placeholder="Пиковая зона: предыдущие показания"><br>
-        <input class="curr__peak__zone__rate__price" type="number" step=1 value="" name="curr_peak_zone_rate_price" placeholder="Пиковая зона: текущие показания"><br><br>   
-        <input class="prev__semipeak__zone__rate__price" type="number" step=1 value="" name="prev_semipeak_zone_rate_price" placeholder="Полупиковая зона: предыдущие показания"><br>
-        <input class="curr__semipeak__zone__rate__price" type="number" step=1 value="" name="curr_semipeak_zone_rate_price" placeholder="Полупиковая зона: текущие показания"><br><br>
-        <input class="prev__night__zone__rate__price" type="number" step=1 value="" name="prev_night_zone_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
-        <input class="curr__night__zone__rate__price" type="number" step=1 value="" name="curr_night_zone_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
-        <label>Результат: <span class="result__trial__mode">0</span> руб.</label><br><br>
-    </div>
+    <form class="calculation__form">
+        <select class="rates__selector">
+            <option class="table__selector__0" value="0">Выберите категорию тарифов</option>
+            <option class="table__selector__1" value="1">Тарифы 1</option>
+            <option class="table__selector__2" value="2">Тарифы 2</option>
+            <option class="table__selector__3" value="3">Тарифы 3</option>
+        </select>
+        <br><br>
+        <select class="meter__mode__selector">
+            <option class="meter__mode__selector__0" value="0">Выберите тип прибора учёта</option>
+            <option class="meter__mode__selector__1" value="1">Однотарфный</option>
+            <option class="meter__mode__selector__2" value="2">Двухзонный</option>
+            <option class="meter__mode__selector__3" value="3">Трёхзонный</option>
+        </select>
+        <br><br>
+
+        <div class = "single__rates__div" style="display: none;">
+            <br>
+            <label>Одноставочный тариф</label><br>
+            <input class="prev__single__rate__price" type="number" step=1 value="" name="prev_single_rate_price" placeholder="Одноставочный тариф: предыдущие показания"><br>
+            <input class="curr__single__rate__price" type="number" step=1 value="" name="curr_single_rate_price" placeholder="Одноставочный тариф: текущие показания"><br><br>
+            <label>Результат: <span class="result__single__mode">0</span> руб.</label><br><br>
+        </div>
+        <div class = "dual__rates__div" style="display: none;">
+            <label>Тариф, дифференцированный по 2 зонам суток</label><br>
+            <input class="prev__daily__rate__price" type="number" step=1 value="" name="prev_daily_rate_price" placeholder="Дневная зона: предыдущие показания"><br>
+            <input class="curr__daily__rate__price" type="number" step=1 value="" name="curr_daily_rate_price" placeholder="Дневная зона: текущие показания"><br><br>
+            <input class="prev__night__rate__price" type="number" step=1 value="" name="prev_night_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
+            <input class="curr__night__rate__price" type="number" step=1 value="" name="curr_night_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
+            <label>Результат: <span class="result__dual__mode">0</span> руб.</label><br><br>
+        </div>
+        <div class = "trial__rates__div" style="display: none;">
+            <label>Тариф, дифференцированный по 3 зонам суток</label><br>
+            <input class="prev__peak__zone__rate__price" type="number" step=1 value="" name="prev_peak_zone_rate_price" placeholder="Пиковая зона: предыдущие показания"><br>
+            <input class="curr__peak__zone__rate__price" type="number" step=1 value="" name="curr_peak_zone_rate_price" placeholder="Пиковая зона: текущие показания"><br><br>   
+            <input class="prev__semipeak__zone__rate__price" type="number" step=1 value="" name="prev_semipeak_zone_rate_price" placeholder="Полупиковая зона: предыдущие показания"><br>
+            <input class="curr__semipeak__zone__rate__price" type="number" step=1 value="" name="curr_semipeak_zone_rate_price" placeholder="Полупиковая зона: текущие показания"><br><br>
+            <input class="prev__night__zone__rate__price" type="number" step=1 value="" name="prev_night_zone_rate_price" placeholder="Ночная зона: предыдущие показания"><br>
+            <input class="curr__night__zone__rate__price" type="number" step=1 value="" name="curr_night_zone_rate_price" placeholder="Ночная зона: текущие показания"><br><br>
+            <label>Результат: <span class="result__trial__mode">0</span> руб.</label><br><br>
+        </div>
+    </form>
 
     <button class="calculate__button">Расчитать</button><br><br>
     <button class="report__button">Печать отчёта в PDF</button><br><br>
