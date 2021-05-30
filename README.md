@@ -1,5 +1,5 @@
-# Калькулятор расчёта размера платы за электроснабжение
-[![Build Status](https://travis-ci.com/abramov26/project26-server.svg?branch=main)](https://travis-ci.com/abramov26/project26-server)
+# project26-server
+## Калькулятор расчёта размера платы за электроснабжение
 [![Build Status](https://project26.usatu.su/jenkins/buildStatus/icon?job=Project26_CID)](https://project26.usatu.su/jenkins/job/Project26_CID/)
 
 ## Описание репозитория
@@ -7,8 +7,8 @@
 В данном репозитории располагается исходный код клиент-серверного веб-приложения, разрабатываемого в рамках выполнения курсовой работы по дисциплине «Информационные системы» студентами подгруппы №26 УГАТУ ПИ-223.
 
 ### Содержание репозитория:
-* Java EE приложение, взаимодействующее с базой данных MySQL с одной стороны, REST API клиентами с другой стороны (папка [/src](/src))
-* Скрипты и веб-страницы, позволяющие работать с Java EE приложением через веб-браузер (папка [/www](/www))
+* Java EE backend-приложение, взаимодействующее с базой данных MySQL с одной стороны, REST API клиентами с другой стороны (директория [/src](/src))
+* JavaScript frontend-приложение, позволяющие работать с backend-приложением через веб-браузер (директория [/www](/www))
 
 ## Описание приложения
 
@@ -22,6 +22,11 @@
 ## Демо-версия
 [![Website project26.usatu.su](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://downforeveryoneorjustme.com/project26.usatu.su/) \
 Ознакомиться с развёрнутым приложением можно по ссылке: [https://project26.usatu.su/coursework/](https://project26.usatu.su/coursework/).
+
+## Дополнительные ссылки
+* [Статус автоматического развёртывания в Jenkins](https://project26.usatu.su/jenkins/job/Project26_CID/)
+* [Ознакомиться с базой данных проекта (логин-пароль: demo-demo)](https://project26.usatu.su/pma/)
+* [Используемая модель тарифов и цен](https://www.bashesk.ru/consumer/become-a-customer/tariffs/current/)
 
 ## Лицензия
 MIT, текст лицензии [по ссылке](LICENSE).
