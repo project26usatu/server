@@ -84,6 +84,7 @@ function updateTrialModeForms(){
 		$('.result__trial__mode').html(result);
 	}
 }
+//генерация PDF для однорежимных счётчиков
 function createPdfIfSingleMode(tokenCookie){
 
 	let ratesId = $(".rates__selector").val();
@@ -125,6 +126,7 @@ function createPdfIfSingleMode(tokenCookie){
     })
 
 }
+//генерация PDF для двухрежимных счётчиков
 function createPdfIfDualMode(tokenCookie){
 
 	let ratesId = $(".rates__selector").val();
@@ -179,6 +181,7 @@ function createPdfIfDualMode(tokenCookie){
     })
 
 }
+//генерация PDF для трёхрежимных счётчиков
 function createPdfIfTrialMode(tokenCookie){
 
 	let ratesId = $(".rates__selector").val();
@@ -241,6 +244,9 @@ function createPdfIfTrialMode(tokenCookie){
     })
 
 }
+
+let successCalculation = false;
+
 //очистка форм
 $('.calculation__form').find("select").val("0");
 $('.calculation__form').find("input").val('');
@@ -271,7 +277,6 @@ $('.meter__mode__selector').change(function() {
 		$('.trial__rates__div').show();
 	}
 });
-let successCalculation = false;
 //кнопка расчёта
 $('.calculate__button').click(function() {
 	let ratesId = $('.rates__selector').val();
