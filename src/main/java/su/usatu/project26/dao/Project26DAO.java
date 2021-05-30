@@ -12,6 +12,8 @@ public interface Project26DAO {
 	public boolean addUser(User user, String tableName);
 
 	public User getUserInfo(String token, String tableName);
+	
+	public boolean updateUserInfo(String token, User user);
 
 	public boolean checkDbValueIfUnique(String rowLabel, String value, String tableName);
 
@@ -22,4 +24,8 @@ public interface Project26DAO {
 	public int getUserGroupByToken(String token, String tableName);
 
 	public String createPdfReport(ReportData dataForPDF) throws IllegalStateException, IOException;
+	
+	public boolean assignPdfReportToUser(String token, String documentName);
+	
+	public String[] getUserPdfFiles(int userId);
 }

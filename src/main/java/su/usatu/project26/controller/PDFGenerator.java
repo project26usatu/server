@@ -39,6 +39,7 @@ public class PDFGenerator extends HttpServlet {
 
 		rd.meterMode = Integer.parseInt(request.getParameter("meterMode"));
 		rd.ratesId = Integer.parseInt(request.getParameter("ratesId"));
+		String token = request.getParameter("token");
 
 		if ((rd.ratesId >= 1 && rd.ratesId <= 3)) {
 			ratesIdInputIsValid = true;
@@ -122,6 +123,7 @@ public class PDFGenerator extends HttpServlet {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Status code 500
 			} else {
 				jsonOutput = JsonResponseUtil.formJsonResponse("success", "OK", pdfReport);
+				dao.assignPdfReportToUser(token, pdfReport);
 			}
 		}
 

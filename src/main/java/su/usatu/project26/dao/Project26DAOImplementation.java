@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import su.usatu.project26.model.*;
@@ -26,14 +28,14 @@ public class Project26DAOImplementation implements Project26DAO {
 	public Rates getRatesById(int id) {
 		Rates rates = new Rates();
 
-		String sqlQuery = "SELECT * FROM rates WHERE rates_set_id = " + id + ";" ;
+		String sqlQuery = "SELECT * FROM rates WHERE rates_set_id = " + id + ";";
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sqlQuery);) {
 
 			while (rs.next()) {
-				
+
 				rates.id = rs.getInt("rates_set_id");
 
 				rates.single_rate_price = rs.getDouble("single_rate_price");
@@ -83,7 +85,7 @@ public class Project26DAOImplementation implements Project26DAO {
 	@Override
 	public boolean addUser(User user, String tableName) {
 		try {
-			String sqlInsert = "INSERT INTO users (id, username, password, salt, email, full_name, created_at, group_id, api_token) VALUES (NULL,?,?,?,?,?,UNIX_TIMESTAMP(),?,?)";
+			String sqlInsert = "INSERT INTO users (id, username, password, salt, email, full_name, created_at, group_id, api_token, meter_mode, rates_set_id) VALUES (NULL,?,?,?,?,?,UNIX_TIMESTAMP(),?,?,?,?)";
 			Connection conn = MySQLJDBCUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sqlInsert);
 			pstmt.setString(1, user.getUsername());
@@ -93,6 +95,8 @@ public class Project26DAOImplementation implements Project26DAO {
 			pstmt.setString(5, user.getFullName());
 			pstmt.setInt(6, 2);
 			pstmt.setString(7, user.getApiToken());
+			pstmt.setInt(8, 0);
+			pstmt.setInt(9, 0);
 			pstmt.executeUpdate();
 			pstmt.close();
 
@@ -108,7 +112,7 @@ public class Project26DAOImplementation implements Project26DAO {
 	@Override
 	public User getUserInfo(String token, String tableName) {
 		User user = new User();
-		String sqlQuery = "SELECT * FROM " + tableName + " WHERE api_token = '" + token + "'";
+		String sqlQuery = "SELECT * FROM " + tableName + " WHERE api_token = '" + token + "';";
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				Statement stmt = conn.createStatement();
@@ -120,6 +124,8 @@ public class Project26DAOImplementation implements Project26DAO {
 				user.setEmail(rs.getString("email"));
 				user.setFullName(rs.getString("full_name"));
 				user.setGroupId(rs.getInt("group_id"));
+				user.setMeterMode(rs.getInt("meter_mode"));
+				user.setRatesSetId(rs.getInt("rates_set_id"));
 
 				break;
 
@@ -131,6 +137,29 @@ public class Project26DAOImplementation implements Project26DAO {
 		}
 
 		return user;
+	}
+
+	@Override
+	public boolean updateUserInfo(String token, User user) {
+		try {
+			String sqlUpdate = "UPDATE users SET email = ?, full_name = ?, meter_mode = ?, rates_set_id = ? WHERE api_token = '"
+					+ token + "';";
+			Connection conn = MySQLJDBCUtil.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sqlUpdate);
+			pstmt.setString(1, user.getEmail());
+			pstmt.setString(2, user.getFullName());
+			pstmt.setInt(3, user.getMeterMode());
+			pstmt.setInt(4, user.getRatesSetId());
+			pstmt.executeUpdate();
+			pstmt.close();
+
+			return true;
+		} catch (SQLException e) {
+			output = e.getMessage();
+			e.printStackTrace();
+
+			return false;
+		}
 	}
 
 	@Override
@@ -250,19 +279,19 @@ public class Project26DAOImplementation implements Project26DAO {
 		return groupId;
 
 	}
-	
+
 	@Override
 	public String createPdfReport(ReportData dataForPDF) throws IllegalStateException, IOException {
-		
+
 		final String WWW_DIR = "/srv/nginx/";
 		final String CONTENT_DIR = "/user-content/";
 		final String FONTS_DIR = WWW_DIR + CONTENT_DIR + "/fonts/";
 		final String IMG_DIR = WWW_DIR + CONTENT_DIR + "/img/";
-		
+
 		byte[] array = new byte[16]; // length is bounded by 16
-	    new Random().nextBytes(array);
-	    String newPdfName = StringUtil.generateRandomString();
-		
+		new Random().nextBytes(array);
+		String newPdfName = StringUtil.generateRandomString();
+
 		String userAccessPath = CONTENT_DIR + newPdfName + ".pdf";
 		String savingPath = WWW_DIR + userAccessPath;
 		if (PDFUtil.generateNewPDF(dataForPDF, FONTS_DIR, IMG_DIR, savingPath)) {
@@ -270,6 +299,53 @@ public class Project26DAOImplementation implements Project26DAO {
 		} else {
 			return "Failed";
 		}
+	}
+
+	@Override
+	public boolean assignPdfReportToUser(String token, String documentName) {
+		try {
+			String sqlInsert = "INSERT INTO reports (id, owner_id, document_name) VALUES (NULL, ?, ?);";
+			Connection conn = MySQLJDBCUtil.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sqlInsert);
+			User user = getUserInfo(token, "users");
+			pstmt.setInt(1, user.getId());
+			pstmt.setString(2, documentName);
+			pstmt.executeUpdate();
+			pstmt.close();
+
+			return true;
+		} catch (SQLException e) {
+			output = e.getMessage();
+			e.printStackTrace();
+
+			return false;
+		}
+	}
+	
+	@Override
+	public String[] getUserPdfFiles(int userId) {
+		String sqlQuery = "SELECT * FROM reports WHERE owner_id = '" + userId + "';";
+		
+		String[] myArray = null;
+		
+		List<String> list = new ArrayList<String>();
+
+		try (Connection conn = MySQLJDBCUtil.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sqlQuery);) {
+			
+			while (rs.next()) {
+				list.add(rs.getString("document_name"));
+
+			}
+			
+			myArray = new String[list.size()];
+			list.toArray(myArray);
+
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+		return myArray;
 	}
 
 }
