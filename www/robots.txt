@@ -1,2 +1,5 @@
 User-agent: *
-Disallow: /
+Disallow: /account/*
+Disallow: /js/*
+
+Sitemap: https://project26.usatu.su/sitemap.xml

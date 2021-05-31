@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Изменение данных аккаунта — Калькулятор расчёта размера платы за электроснабжение</title>
+</head>
+<body>
+	<div class="wrapper">
+        <h2>Личный кабинет</h2>
+
+        <div class="admin__zone" hidden>
+            <h3>Администрирование:</h3>
+            <a href="../edit-rates.html">Изменить тарифные ставки</a>
+        </div>
+
+        <h3>Редактирование личной информации:</h3>
+        <form>
+            <label>Никнейм</label>
+            <input type="text" name="username" class="edit__username__input" value="" disabled><br>
+            <label>Полное имя</label>
+            <input type="text" name="full_name" class="edit__fullname__input" value="" required><br>
+            <label>E-mail</label>
+            <input type="email" name="email" class="edit__email__input" value="" required><br>
+
+            <h3>Настройки тарифов:</h3>
+            <a href="https://www.bashesk.ru/consumer/become-a-customer/tariffs/current/" target="_blank">Справочная информация о тарифах</a><br><br>
+            <label>Категория тарифов</label>
+            <select class="rates__selector">
+                <option class="meter__mode__selector__1" value="0">Не сохранять</option>
+                <option class="table__selector__1" value="1">Тарифы 1</option>
+                <option class="table__selector__2" value="2">Тарифы 2</option>
+                <option class="table__selector__3" value="3">Тарифы 3</option>
+            </select><br>
+            <label>Тип прибора учёта</label>
+            <select class="meter__mode__selector">
+                <option class="meter__mode__selector__1" value="0">Не сохранять</option>
+                <option class="meter__mode__selector__1" value="1">Однотарфный</option>
+                <option class="meter__mode__selector__2" value="2">Двухзонный</option>
+                <option class="meter__mode__selector__3" value="3">Трёхзонный</option>
+            </select><br><br>
+        </form>
+        <input type="submit" class="edit__account__button" value="Сохранить"><br><br>
+
+        <h3>История отчётов:</h3>
+
+        <ul class="pdf__reports__place"></ul>
+
+        <br>
+        <a href="logout.html">Выйти из аккаунта</a><br><br>
+        <a href="../">Вернуться назад</a>
+    </div>
+
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/account.js"></script>
+</body>
+</html>

@@ -9,7 +9,10 @@
 
     <h2>Изменение тарифов</h2>
 
+    <h3>Для редактирования формы нужно обладать правами администратора</h3>
+
     <form>
+        <label>Тарифные ставки</label>
         <select class="rates__selector">
             <option value="1">Тарифы 1</option>
             <option value="2">Тарифы 2</option>
@@ -19,12 +22,18 @@
 
     <form id="rates_form" method="get">
         <br>
-        <input class="single__rate__price" type="number" step=0.01 value="" name="single_rate_price" placeholder="Одноставочный тариф"><br><br>
-        <input class="daily__rate__price" type="number" step=0.01 value="" name="daily_rate_price" placeholder="Дневная зона"><br>
-        <input class="night__rate__price" type="number" step=0.01 value="" name="night_rate_price" placeholder="Ночная зона"><br><br>
-        <input class="peak__zone__rate__price" type="number" step=0.01 value="" name="peak_zone_rate_price" placeholder="Пиковая зона"><br>
-        <input class="semipeak__zone__rate__price" type="number" step=0.01 value="" name="semipeak_zone_rate_price" placeholder="Полупиковая зона"><br>
-        <input class="night__zone__rate__price" type="number" step=0.01 value="" name="night_zone_rate_price" placeholder="Ночная зона"><br>       
+        <label>Одноставочный тариф</label>
+        <input class="single__rate__price" type="number" step=0.01 value="" name="single_rate_price"><br><br>
+        <label>Дневная зона</label>
+        <input class="daily__rate__price" type="number" step=0.01 value="" name="daily_rate_price"><br>
+        <label>Ночная зона</label>
+        <input class="night__rate__price" type="number" step=0.01 value="" name="night_rate_price"><br><br>
+        <label>Пиковая зона</label>
+        <input class="peak__zone__rate__price" type="number" step=0.01 value="" name="peak_zone_rate_price"><br>
+        <label>Полупиковая зона</label>
+        <input class="semipeak__zone__rate__price" type="number" step=0.01 value="" name="semipeak_zone_rate_price"><br>
+        <label>Ночная зона</label>
+        <input class="night__zone__rate__price" type="number" step=0.01 value="" name="night_zone_rate_price"><br>       
         <!-- <button class="upload__button" type="submit">Submit</button> -->
     </form><br>
     <a href="./">Вернуться назад</a>
