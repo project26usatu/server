@@ -12,11 +12,6 @@ import su.usatu.project26.util.JsonResponseUtil;
 
 @WebServlet("/")
 
-//TODO заменить все == на equials (где это нужно)
-//TODO убрать все TODO на исключениях (предварительно сделав их нормальную обработку)
-//TODO в личном кабинете настройки категории населения и режима работы счётчика
-
-
 public class Default extends HttpServlet {
 
 	public Default() {
