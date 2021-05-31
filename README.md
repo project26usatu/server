@@ -14,14 +14,22 @@
 
 Калькулятор расчёта размера платы за электроснабжение — это программа, которая используется для произведения автоматизированных расчётов суммы оплаты за поставленную электроэнергию. Она имеет интуитивно понятный интерфейс пользователя с реализацией возможности выбора различных категорий потребителей и режимов работы прибора учёта (одно- или многотарифный). Серверное приложение позволяет клиентам взаимодействовать с информацией, содержащейся в базе данных (получать, изменять, создавать и т. п.) посредством REST API или через веб-интерфейс.
 
-## Системные требования
+## Рабочее окружение
 
-* Контейнер сервлетов Java с поддержкой Java SE-1.8 
-* Сервер баз данных MySQL 8.0.*
+* Контейнер сервлетов Java EE 8 Jetty 9.4.40
+* Веб-сервер Nginx 1.20.0
+* Сервер БД MySQL 8.0.24
+* СУБД phpMyAdmin 5.1.0
+
+## Установка
+Для установки требуется [Docker](https://docs.docker.com/engine/install/) и [Docker Compose](https://docs.docker.com/compose/install/).
+```console
+curl -s https://project26.usatu.su/download/docker-deploy/0.2/script.sh | sudo bash
+```
 
 ## Демо-версия
 [![Website project26.usatu.su](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://downforeveryoneorjustme.com/project26.usatu.su/) \
-Ознакомиться с развёрнутым приложением можно по ссылке: [https://project26.usatu.su/coursework/](https://project26.usatu.su/coursework/).
+Ознакомиться с развёрнутым приложением можно [по ссылке](https://project26.usatu.su/coursework/). Cookies и JavaScript должны быть включены.
 
 ## Дополнительные ссылки
 * [Статус автоматического развёртывания в Jenkins](https://project26.usatu.su/jenkins/job/Project26_CID/)
