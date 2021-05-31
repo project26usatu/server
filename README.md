@@ -35,6 +35,7 @@ curl -s https://project26.usatu.su/download/docker-deploy/0.2/script.sh | sudo b
 * [Статус автоматического развёртывания в Jenkins](https://project26.usatu.su/jenkins/job/Project26_CID/)
 * [Ознакомиться с базой данных проекта (логин-пароль: demo-demo)](https://project26.usatu.su/pma/)
 * [Используемая модель тарифов и цен](https://www.bashesk.ru/consumer/become-a-customer/tariffs/current/)
+* [Пояснительная записка к курсовой работе](https://project26.usatu.su/download/Project26_poyasnitelnaya_zapiska.pdf)
 
 ## Лицензия
 MIT, текст лицензии [по ссылке](LICENSE).
