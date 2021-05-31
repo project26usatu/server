@@ -4,9 +4,9 @@ function importJsonToEditForm(url){
     	const ratesArray = [];
         $.each(data, function(key, val) {
 
-           ratesArray.push(val);
+         ratesArray.push(val);
 
-       });
+     });
         //в ratesArray[2] находится запрашиваемый у api объект (responseBody)
         let jsonWithData = ratesArray[2];
         $('.single__rate__price').val(jsonWithData.single_rate_price);
@@ -88,17 +88,33 @@ return "";
 function deleteCookie(){
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
-//получить имя пользователя по его токену
-function getUsername(url, token){
-    $.getJSON(url + "?token=" + token, function(data) {
-        const ratesArray = [];
-        $.each(data, function(key, val) {
 
-            ratesArray.push(val);
-
-        });
-
-        let jsonWithData = ratesArray[2];
-        $('#username').text(jsonWithData.username);
+function getval(token) {
+    let queryUrl = "/api/get_user_info?token=" + token;
+    jQuery.getJSON(queryUrl, function(data) {
+        // You have to use "data" here
+        alert(data['responseBody'].avg.value);
     });
+}
+//получить всю информацию о пользователе по его токену
+function getUserInfo(token){
+
+    let userData = null;
+    let queryUrl = "/api/get_user_info?token=" + token;
+
+    $.ajax({
+      url: queryUrl,
+      async: false,
+      dataType: 'json',
+      success: function (json) {
+        userData = json.responseBody;
+      },
+      error: function (error) {
+        alert ("При получении данных произошла ошибка");
+        //возможно, проблема с куками, так что удаляем
+        deleteCookie();
+      }
+    });
+
+    return userData;
 }

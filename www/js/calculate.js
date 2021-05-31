@@ -88,6 +88,8 @@ function updateTrialModeForms(){
 function createPdfIfSingleMode(tokenCookie){
 
 	let ratesId = $(".rates__selector").val();
+	tokenCookie = getCookie("token");
+	if (!tokenCookie) tokenCookie = 0;
 
 	let firstMeterPrevReadings = $(".prev__single__rate__price").val();
 	let firstMeterCurrReadings = $(".curr__single__rate__price").val();
@@ -99,7 +101,7 @@ function createPdfIfSingleMode(tokenCookie){
 		url: '/api/generate_pdf',     
 		type: 'GET',
 		data : {
-            //token : tokenCookie,
+            token : tokenCookie,
             meterMode : 1,
             ratesId : ratesId,
             firstMeterPrevReadings : firstMeterPrevReadings,
@@ -111,8 +113,8 @@ function createPdfIfSingleMode(tokenCookie){
         dataType: 'json',                   
         success: function(data)
         {
-        	let pdfDocDownloadLink = "https://project26.usatu.su" + data.responseBody;
-        	alert("Отчёт сформирован. Нажмите ОК для просмотра");
+        	let pdfDocDownloadLink = "http://" + location.host  + data.responseBody;
+        	alert("Отчёт сформирован. Он откроется в новом окне");
         	window.open(pdfDocDownloadLink, '_blank');
         },
         statusCode: {
@@ -130,6 +132,8 @@ function createPdfIfSingleMode(tokenCookie){
 function createPdfIfDualMode(tokenCookie){
 
 	let ratesId = $(".rates__selector").val();
+	tokenCookie = getCookie("token");
+	if (!tokenCookie) tokenCookie = 0;
 
 	let firstMeterPrevReadings = $(".prev__daily__rate__price").val();
 	let firstMeterCurrReadings = $(".curr__daily__rate__price").val();
@@ -150,7 +154,7 @@ function createPdfIfDualMode(tokenCookie){
 		url: '/api/generate_pdf',     
 		type: 'GET',
 		data : {
-            //token : tokenCookie,
+            token : tokenCookie,
             meterMode : 2,
             ratesId : ratesId,
             firstMeterPrevReadings : firstMeterPrevReadings,
@@ -166,8 +170,8 @@ function createPdfIfDualMode(tokenCookie){
         dataType: 'json',                   
         success: function(data)
         {
-        	let pdfDocDownloadLink = "https://project26.usatu.su" + data.responseBody;
-        	alert("Отчёт сформирован. Нажмите ОК для просмотра");
+        	let pdfDocDownloadLink = "http://" + location.host  + data.responseBody;
+        	alert("Отчёт сформирован. Он откроется в новом окне");
         	window.open(pdfDocDownloadLink, '_blank');
         },
         statusCode: {
@@ -185,6 +189,8 @@ function createPdfIfDualMode(tokenCookie){
 function createPdfIfTrialMode(tokenCookie){
 
 	let ratesId = $(".rates__selector").val();
+	tokenCookie = getCookie("token");
+	if (!tokenCookie) tokenCookie = 0;
 
 	let firstMeterPrevReadings = $(".prev__peak__zone__rate__price").val();
 	let firstMeterCurrReadings = $(".curr__peak__zone__rate__price").val();
@@ -209,7 +215,7 @@ function createPdfIfTrialMode(tokenCookie){
 		url: '/api/generate_pdf',     
 		type: 'GET',
 		data : {
-            //token : tokenCookie,
+            token : tokenCookie,
             meterMode : 3,
             ratesId : ratesId,
             firstMeterPrevReadings : firstMeterPrevReadings,
@@ -229,8 +235,8 @@ function createPdfIfTrialMode(tokenCookie){
         dataType: 'json',                   
         success: function(data)
         {
-        	let pdfDocDownloadLink = "https://project26.usatu.su" + data.responseBody;
-        	alert("Отчёт сформирован. Нажмите ОК для просмотра");
+        	let pdfDocDownloadLink = "http://" + location.host  + data.responseBody;
+        	alert("Отчёт сформирован. Он откроется в новом окне");
         	window.open(pdfDocDownloadLink, '_blank');
         },
         statusCode: {
@@ -245,11 +251,29 @@ function createPdfIfTrialMode(tokenCookie){
 
 }
 
-let successCalculation = false;
+let tokenCookie = getCookie("token"); 
 
-//очистка форм
-$('.calculation__form').find("select").val("0");
+let user;
+if (tokenCookie) {
+	user = getUserInfo(tokenCookie);
+
+	user.meterMode;
+	user.ratesSetId;
+
+	$('.meter__mode__selector').val(user.meterMode);
+	$('.rates__selector').val(user.ratesSetId);
+	$(document).ready(function() {
+		$('.meter__mode__selector').trigger("change");
+		$('.rates__selector').trigger("change");
+	});
+
+} else {
+	$('.calculation__form').find("select").val("0");
+}
+
 $('.calculation__form').find("input").val('');
+
+let successCalculation = false;
 
 //слушатели (обновление результатов при взаимодействии):
 //выпадающее меню выбора тарифных ставок

@@ -42,10 +42,10 @@ function updateRates(tokenCookie){
         },
         statusCode: {
         	403: function (response) {
-             alert("Доступ запрещён");
-         }
-     },
- })
+         		alert("Доступ запрещён");
+      	}
+        },
+    })
 
 }
 
