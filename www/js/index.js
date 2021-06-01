@@ -4,10 +4,10 @@ let user;
 let userLoggedIn = false;
 if (tokenCookie) {
 	userLoggedIn = true;
-	$("#login_link").attr("href", "account/logout.html");
+	$("#login_link").attr("href", "account/logout");
 	$("#login_link").html("(Выйти)");
 	$("#registration_link").hide();
-	$("#account_link").attr("href", "account/main.html");
+	$("#account_link").attr("href", "account/main");
 	user = getUserInfo(tokenCookie);
 	$('#username').text(user.username);
 } else {
