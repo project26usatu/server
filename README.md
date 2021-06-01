@@ -22,7 +22,9 @@
 * СУБД phpMyAdmin 5.1.0
 
 ## Установка
-Для установки требуется [Docker](https://docs.docker.com/engine/install/) и [Docker Compose](https://docs.docker.com/compose/install/).
+### Установка в Ubuntu/Debian:
+Для установки требуется [Docker](https://docs.docker.com/engine/install/) и [Docker Compose](https://docs.docker.com/compose/install/). 
+
 ```console
 curl -s https://project26.usatu.su/download/docker-deploy/0.2/script.sh | sudo bash
 ```
