@@ -16,6 +16,22 @@ else
     echo "Exiting..."
     exit
 fi
+if telnet localhost 8888 < /dev/null 2>&1 | grep -q Connected
+then
+    echo "Port 8888 is already allocated!"
+    echo "Exiting..."
+    exit
+else
+    echo "Port 8888 is available for deploying"
+fi
+if telnet localhost 8889 < /dev/null 2>&1 | grep -q Connected
+then
+    echo "Port 8889 is already allocated!"
+    echo "Exiting..."
+    exit
+else
+    echo "Port 8889 is available for deploying"
+fi
 echo "Creating application folder..."
 if [ -d "project26" ] 
 then
@@ -34,9 +50,9 @@ echo "Deploying..."
 docker-compose up -d
 echo "Congratulations! The app has been installed"
 echo "Here is links to go:"
-echo "Application IP address:"
+echo "Application's container IP address (exposed to localhost:8888):"
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' project26_reverse_proxy
-echo "phpmyadmin IP address:"
+echo "phpmyadmin's container IP address (exposed to localhost:8889):"
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' project26_pma
-echo "Administrator credentials:"
-echo "admin:admin"
+echo "Administrator credentials for application: admin:admin"
+echo "Password for database root: db_password"
