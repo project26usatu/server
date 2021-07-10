@@ -27,7 +27,7 @@ pipeline {
                 echo 'Copying files...'
                 sh '''
                     yes | cp -rf $PROJECT_PATH/output/api.war /srv/jetty/wars
-                    yes | cp -rf $PROJECT_PATH/www/* /srv/nginx/coursework
+                    yes | cp -rf $PROJECT_PATH/www/* /srv/nginx/www
                 '''
                 echo 'Restarting Jetty...'
                 sh 'docker restart project26_jetty'
