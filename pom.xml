@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>su.usatu.project26</groupId>
 	<artifactId>api</artifactId>
-	<version>0.2</version>
+	<version>0.3</version>
 	<packaging>war</packaging>
 	<name>Project26API</name>
 	<description>Course work by team 26: Server-side API application</description>
