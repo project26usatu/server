@@ -1,10 +1,10 @@
-# project26-server
-## Калькулятор расчёта размера платы за электроснабжение
+# server
+## Калькулятор расчёта размера платы за электроснабжение (серверное приложение)
 [![Build Status](https://project26.usatu.su/jenkins/buildStatus/icon?job=Project26_CID)](https://project26.usatu.su/jenkins/job/Project26_CID/)
 
 ## Описание репозитория
 
-В данном репозитории располагается исходный код клиент-серверного веб-приложения, разрабатываемого в рамках выполнения курсовой работы по дисциплине «Информационные системы» студентами подгруппы №26 УГАТУ ПИ-223.
+В данном репозитории располагается исходный код клиент-серверного веб-приложения «Калькулятор расчёта размера платы за электроснабжение».
 
 ### Содержание репозитория:
 * Java EE backend-приложение, взаимодействующее с базой данных MySQL с одной стороны, REST API клиентами с другой стороны (директория [/src](/src))
@@ -19,7 +19,7 @@
 * Контейнер сервлетов Java EE 8 Jetty 9.4.40
 * Веб-сервер Nginx 1.20.0
 * Сервер БД MySQL 8.0.24
-* СУБД phpMyAdmin 5.1.0
+* СУБД phpMyAdmin 5.1.0 (опционально)
 
 ## Установка
 ### Установка в Ubuntu/Debian:
@@ -30,14 +30,11 @@ curl -s https://project26.usatu.su/download/docker-deploy/0.2/script.sh | sudo b
 ```
 
 ## Демо-версия
-[![Website project26.usatu.su](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://downforeveryoneorjustme.com/project26.usatu.su/) \
-Ознакомиться с развёрнутым приложением можно [по ссылке](https://project26.usatu.su/coursework/). Cookies и JavaScript должны быть включены.
+Ознакомиться с развёрнутым приложением можно [по ссылке](https://project26.usatu.su). Cookies и JavaScript должны быть включены.
 
 ## Дополнительные ссылки
 * [Статус автоматического развёртывания в Jenkins](https://project26.usatu.su/jenkins/job/Project26_CID/)
-* [Ознакомиться с базой данных проекта (логин-пароль: demo-demo)](https://project26.usatu.su/pma/)
 * [Используемая модель тарифов и цен](https://www.bashesk.ru/consumer/become-a-customer/tariffs/current/)
-* [Пояснительная записка к курсовой работе](https://project26.usatu.su/download/Project26_poyasnitelnaya_zapiska.pdf)
 
 ## Лицензия
 MIT, текст лицензии [по ссылке](LICENSE).
