@@ -1,5 +1,9 @@
 .classpath
 .project
 .settings/
-/output/**
+/output/
 /target/
+/.idea/
+/.obsidian/
+*.iws
+*.iml
