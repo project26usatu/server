@@ -59,7 +59,8 @@ public class Login extends HttpServlet {
 
 				Cookie cookie = new Cookie("token", apiKey);
 				cookie.setPath("/");
-				cookie.setMaxAge(7 * 24 * 60 * 60);
+				cookie.setSecure(true);
+				cookie.setMaxAge(10 * 365 * 24 * 60 * 60);
 				response.addCookie(cookie);
 
 				jsonOutput = JsonResponseUtil.formJsonResponse("success", "Login successful", apiKey);
