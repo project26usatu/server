@@ -1,5 +1,7 @@
 User-agent: *
 Disallow: /account/*
+Disallow: /jenkins/*
 Disallow: /js/*
+Disallow: /user-content/*
 
 Sitemap: https://project26.usatu.su/sitemap.xml
