@@ -9,19 +9,52 @@ function formPdfReportsPlace(userId){
 		},
 		dataType : 'json', 
 		success : function(result){
-			let reports_count = 1;
+			let reportCount = 1;
 			$.each(result.responseBody, function(index, val){
 				let uri = "https://project26.usatu.su"; 
 				let docUrl;
 				docUrl = uri + val;
-				$(".pdf__reports__place").append('<li><a href=' + docUrl +'>Отчёт ' + reports_count + '</a></li>');
-				reports_count++;
+				let token = readCookie('token');
+				$(".pdf__reports__place").append('<li id="report__li__' + reportCount + '"><a href=' + docUrl +'>Отчёт ' + reportCount + '</a><a onclick="deletePdfReport(\'' + token + '\', \'' + val + '\', ' + reportCount + ')" title="Удалить отчёт">❌</a></li>');
+				reportCount++;
 			});
 		},
 		error : function(error){
-			$(".pdf__reports__place").append('<li>Пока вы не сделали ни одного отчёта</li>');
+			$(".pdf__reports__place").append('Пока вы не сделали ни одного отчёта');
 		}
 	});
+}
+
+function deletePdfReport(token, documentName, liNumber){
+	$.ajax({ 
+		type : 'GET', 
+		url : '/api/delete_pdf_report', 
+		async : false, 
+		data : {
+			token : token,
+			documentName: documentName
+		},
+		dataType : 'json', 
+		success : function(result){
+			deleteLi(liNumber);
+			//console.log(liNumber);
+		},
+		statusCode: {
+			404: function (response) {
+				console.log(response);
+				alert("Не удалось удалить");
+			},
+			500: function (response) {
+				alert("Ошибка сервера");
+			}
+		}
+	});
+}
+
+function deleteLi(liNumber){
+	let liId = '#report__li__' + liNumber;
+	$(liId).remove();
+	if (liNumber === 1) $(".pdf__reports__place").append('Пока вы не сделали ни одного отчёта');
 }
 
 let tokenCookie = getCookie("token"); 

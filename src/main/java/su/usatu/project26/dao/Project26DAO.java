@@ -28,4 +28,6 @@ public interface Project26DAO {
 	public boolean assignPdfReportToUser(String token, String documentName);
 	
 	public String[] getUserPdfFiles(int userId);
+	
+	public boolean deletePdfReport(String token, String documentName);
 }

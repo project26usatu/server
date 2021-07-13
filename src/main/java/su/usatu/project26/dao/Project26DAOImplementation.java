@@ -304,7 +304,7 @@ public class Project26DAOImplementation implements Project26DAO {
 	@Override
 	public boolean assignPdfReportToUser(String token, String documentName) {
 		try {
-			String sqlInsert = "INSERT INTO reports (id, owner_id, document_name) VALUES (NULL, ?, ?);";
+			String sqlInsert = "INSERT INTO reports (id, owner_id, document_name, created_at) VALUES (NULL, ?, ?, UNIX_TIMESTAMP());";
 			Connection conn = MySQLJDBCUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sqlInsert);
 			User user = getUserInfo(token, "users");
@@ -321,24 +321,24 @@ public class Project26DAOImplementation implements Project26DAO {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public String[] getUserPdfFiles(int userId) {
 		String sqlQuery = "SELECT * FROM reports WHERE owner_id = '" + userId + "';";
-		
+
 		String[] myArray = null;
-		
+
 		List<String> list = new ArrayList<String>();
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sqlQuery);) {
-			
+
 			while (rs.next()) {
 				list.add(rs.getString("document_name"));
 
 			}
-			
+
 			myArray = new String[list.size()];
 			list.toArray(myArray);
 
@@ -346,6 +346,31 @@ public class Project26DAOImplementation implements Project26DAO {
 			System.out.println(ex.getMessage());
 		}
 		return myArray;
+	}
+
+	@Override
+	public boolean deletePdfReport(String token, String documentName) {
+
+		boolean deletionStatus = false;
+
+		User user = new User();
+		user = getUserInfo(token, "users");
+		int userId = user.getId();
+
+		String sqlUpdate = "DELETE FROM reports WHERE document_name = '" + documentName + "' AND owner_id = " + userId + ";";
+
+		try (Connection conn = MySQLJDBCUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
+
+			int rowAffected = pstmt.executeUpdate();
+			if (rowAffected == 1) deletionStatus = true;
+
+		} catch (SQLException ex) {
+			output = ex.getMessage();
+			System.out.println(ex.getMessage());
+		}
+
+		return deletionStatus;
 	}
 
 }
