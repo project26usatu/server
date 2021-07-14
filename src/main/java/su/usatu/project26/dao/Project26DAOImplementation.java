@@ -110,20 +110,26 @@ public class Project26DAOImplementation implements Project26DAO {
 	}
 
 	@Override
-	public User getUserInfo(String token, String tableName) {
+	public User getUserByToken(String token, String tableName) {
 		User user = new User();
+		//set guest credentials by default
+		user.setId(1);
+		user.setUsername("guest");
+		user.setGroupId(3);
+		
 		String sqlQuery = "SELECT * FROM " + tableName + " WHERE api_token = '" + token + "';";
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sqlQuery);) {
-
+			
 			while (rs.next()) {
 				user.setId(rs.getInt("id"));
 				user.setUsername(rs.getString("username"));
 				user.setEmail(rs.getString("email"));
 				user.setFullName(rs.getString("full_name"));
 				user.setGroupId(rs.getInt("group_id"));
+				user.setApiToken(rs.getString("api_token"));
 				user.setMeterMode(rs.getInt("meter_mode"));
 				user.setRatesSetId(rs.getInt("rates_set_id"));
 
@@ -251,36 +257,6 @@ public class Project26DAOImplementation implements Project26DAO {
 	}
 
 	@Override
-	public int getUserGroupByToken(String token, String tableName) {
-
-		int groupId = 3; // set guest group
-
-		String sqlQuery = "SELECT * FROM " + tableName + " WHERE api_token = '" + token + "'";
-
-		try (Connection conn = MySQLJDBCUtil.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sqlQuery);) {
-
-			while (rs.next()) {
-
-				// if token not found or not specified groupId remains 3 (guest group)
-
-				groupId = rs.getInt("group_id");
-
-				break;
-
-			}
-
-		} catch (SQLException ex) {
-			output = ex.getMessage();
-			System.out.println(ex.getMessage());
-		}
-
-		return groupId;
-
-	}
-
-	@Override
 	public String createPdfReport(ReportData dataForPDF) throws IllegalStateException, IOException {
 
 		final String WWW_DIR = "/srv/nginx/";
@@ -307,7 +283,7 @@ public class Project26DAOImplementation implements Project26DAO {
 			String sqlInsert = "INSERT INTO reports (id, owner_id, document_name, created_at) VALUES (NULL, ?, ?, UNIX_TIMESTAMP());";
 			Connection conn = MySQLJDBCUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sqlInsert);
-			User user = getUserInfo(token, "users");
+			User user = getUserByToken(token, "users");
 			pstmt.setInt(1, user.getId());
 			pstmt.setString(2, documentName);
 			pstmt.executeUpdate();
@@ -354,7 +330,7 @@ public class Project26DAOImplementation implements Project26DAO {
 		boolean deletionStatus = false;
 
 		User user = new User();
-		user = getUserInfo(token, "users");
+		user = getUserByToken(token, "users");
 		int userId = user.getId();
 
 		String sqlUpdate = "DELETE FROM reports WHERE document_name = '" + documentName + "' AND owner_id = " + userId + ";";

@@ -53,7 +53,6 @@ public class Login extends HttpServlet {
 			} else {
 
 				String apiKey = TokenUtil.generateNewToken();
-
 				user.setApiToken(apiKey);
 				dao.assignApiToken(user, "users");
 

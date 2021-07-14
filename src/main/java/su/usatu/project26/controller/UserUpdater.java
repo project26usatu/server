@@ -56,7 +56,7 @@ public class UserUpdater extends HttpServlet {
 		user.setMeterMode(userMeterMode);
 		user.setRatesSetId(userRatesId);
 
-		if (dao.getUserInfo(apiKey, "users").getId() == 0) {
+		if (dao.getUserByToken(apiKey, "users").getId() == 0) {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "User Not Found");
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		} else {

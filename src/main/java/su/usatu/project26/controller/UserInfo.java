@@ -32,7 +32,7 @@ public class UserInfo extends HttpServlet {
 		
 		String apiKey = request.getParameter("token");
 
-		User user = dao.getUserInfo(apiKey, "users");
+		User user = dao.getUserByToken(apiKey, "users");
 		
 		if (user.getId() == 0) {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "User Not Found");

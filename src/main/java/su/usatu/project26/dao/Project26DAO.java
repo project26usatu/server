@@ -11,7 +11,7 @@ public interface Project26DAO {
 
 	public boolean addUser(User user, String tableName);
 
-	public User getUserInfo(String token, String tableName);
+	public User getUserByToken(String token, String tableName);
 	
 	public boolean updateUserInfo(String token, User user);
 
@@ -20,8 +20,6 @@ public interface Project26DAO {
 	public boolean checkLoginPasswordMatch(User user, String tableName);
 
 	public boolean assignApiToken(User user, String tableName);
-
-	public int getUserGroupByToken(String token, String tableName);
 
 	public String createPdfReport(ReportData dataForPDF) throws IllegalStateException, IOException;
 	

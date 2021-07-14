@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import su.usatu.project26.dao.*;
 import su.usatu.project26.model.Rates;
+import su.usatu.project26.model.User;
 import su.usatu.project26.util.JsonResponseUtil;
 
 @WebServlet("edit_prices")
@@ -30,7 +31,8 @@ public class RatesEditor extends HttpServlet {
 		String jsonOutput;
 
 		String token = request.getParameter("token");
-		int groupId = dao.getUserGroupByToken(token, "users");
+		User user = dao.getUserByToken(token, "users");
+		int groupId = user.getGroupId();
 
 		Rates rates = new Rates();
 
