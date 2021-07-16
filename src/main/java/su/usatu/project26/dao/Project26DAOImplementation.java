@@ -126,6 +126,46 @@ public class Project26DAOImplementation implements Project26DAO {
 			while (rs.next()) {
 				user.setId(rs.getInt("id"));
 				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				user.setSalt(rs.getString("salt"));
+				user.setEmail(rs.getString("email"));
+				user.setFullName(rs.getString("full_name"));
+				user.setGroupId(rs.getInt("group_id"));
+				user.setApiToken(rs.getString("api_token"));
+				user.setMeterMode(rs.getInt("meter_mode"));
+				user.setRatesSetId(rs.getInt("rates_set_id"));
+
+				break;
+
+			}
+
+		} catch (SQLException ex) {
+			output = ex.getMessage();
+			System.out.println(ex.getMessage());
+		}
+
+		return user;
+	}
+	
+	@Override
+	public User getUserByUsername(String username, String tableName) {
+		User user = new User();
+		//set guest credentials by default
+		user.setId(1);
+		user.setUsername("guest");
+		user.setGroupId(3);
+		
+		String sqlQuery = "SELECT * FROM " + tableName + " WHERE username = '" + username + "';";
+
+		try (Connection conn = MySQLJDBCUtil.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sqlQuery);) {
+			
+			while (rs.next()) {
+				user.setId(rs.getInt("id"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				user.setSalt(rs.getString("salt"));
 				user.setEmail(rs.getString("email"));
 				user.setFullName(rs.getString("full_name"));
 				user.setGroupId(rs.getInt("group_id"));
@@ -146,16 +186,19 @@ public class Project26DAOImplementation implements Project26DAO {
 	}
 
 	@Override
-	public boolean updateUserInfo(String token, User user) {
+	public boolean updateUser(String token, User user) {
 		try {
-			String sqlUpdate = "UPDATE users SET email = ?, full_name = ?, meter_mode = ?, rates_set_id = ? WHERE api_token = '"
+			String sqlUpdate = "UPDATE users SET password = ?, salt = ?, email = ?, full_name = ?, api_token = ?, meter_mode = ?, rates_set_id = ? WHERE api_token = '"
 					+ token + "';";
 			Connection conn = MySQLJDBCUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sqlUpdate);
-			pstmt.setString(1, user.getEmail());
-			pstmt.setString(2, user.getFullName());
-			pstmt.setInt(3, user.getMeterMode());
-			pstmt.setInt(4, user.getRatesSetId());
+			pstmt.setString(1, user.getPassword());
+			pstmt.setString(2, user.getSalt());
+			pstmt.setString(3, user.getEmail());
+			pstmt.setString(4, user.getFullName());
+			pstmt.setString(5, user.getApiToken());
+			pstmt.setInt(6, user.getMeterMode());
+			pstmt.setInt(7, user.getRatesSetId());
 			pstmt.executeUpdate();
 			pstmt.close();
 
@@ -223,29 +266,6 @@ public class Project26DAOImplementation implements Project26DAO {
 				break;
 
 			}
-
-		} catch (SQLException ex) {
-			output = ex.getMessage();
-			System.out.println(ex.getMessage());
-		}
-
-		return result;
-
-	}
-
-	@Override
-	public boolean assignApiToken(User user, String tableName) {
-
-		boolean result = false;
-
-		String sqlUpdate = "UPDATE " + tableName + " SET api_token = '" + user.getApiToken() + "' WHERE username = '"
-				+ user.getUsername() + "'";
-
-		try (Connection conn = MySQLJDBCUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
-
-			int rowAffected = pstmt.executeUpdate();
-			output = String.format("Row affected %d", rowAffected);
 
 		} catch (SQLException ex) {
 			output = ex.getMessage();

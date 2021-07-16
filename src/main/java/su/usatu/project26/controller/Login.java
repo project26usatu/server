@@ -14,7 +14,6 @@ import su.usatu.project26.dao.Project26DAO;
 import su.usatu.project26.dao.Project26DAOImplementation;
 import su.usatu.project26.model.User;
 import su.usatu.project26.util.JsonResponseUtil;
-import su.usatu.project26.util.TokenUtil;
 
 @WebServlet("login")
 
@@ -51,10 +50,11 @@ public class Login extends HttpServlet {
 				jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Login failed: wrong username or password");
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			} else {
+				
+				User loggedUser = new User();
+				loggedUser = dao.getUserByUsername(username, "users");
 
-				String apiKey = TokenUtil.generateNewToken();
-				user.setApiToken(apiKey);
-				dao.assignApiToken(user, "users");
+				String apiKey = loggedUser.getApiToken();
 
 				Cookie cookie = new Cookie("token", apiKey);
 				cookie.setPath("/");

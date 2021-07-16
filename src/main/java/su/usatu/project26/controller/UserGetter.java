@@ -16,11 +16,11 @@ import su.usatu.project26.util.JsonResponseUtil;
 
 @WebServlet("get_user_info")
 
-public class UserInfo extends HttpServlet {
+public class UserGetter extends HttpServlet {
 
 	private Project26DAO dao;
 
-	public UserInfo() {
+	public UserGetter() {
 		dao = new Project26DAOImplementation();
 	}
 
@@ -34,9 +34,9 @@ public class UserInfo extends HttpServlet {
 
 		User user = dao.getUserByToken(apiKey, "users");
 		
-		if (user.getId() == 0) {
+		if (user.getId() == 1) {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "User Not Found");
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND); // Status code 404
 		} else {
 			jsonOutput = JsonResponseUtil.formJsonResponse("success", "User found", user);
 		}

@@ -13,13 +13,13 @@ public interface Project26DAO {
 
 	public User getUserByToken(String token, String tableName);
 	
-	public boolean updateUserInfo(String token, User user);
+	public User getUserByUsername(String username, String tableName);
+	
+	public boolean updateUser(String token, User user);
 
 	public boolean checkDbValueIfUnique(String rowLabel, String value, String tableName);
 
 	public boolean checkLoginPasswordMatch(User user, String tableName);
-
-	public boolean assignApiToken(User user, String tableName);
 
 	public String createPdfReport(ReportData dataForPDF) throws IllegalStateException, IOException;
 	
