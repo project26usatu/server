@@ -76,36 +76,52 @@ $('.edit__account__button').click({token: tokenCookie}, function(event) { //http
 	let username = $('.edit__username__input').val();
 	let fullName = $('.edit__fullname__input').val();
 	let email = $('.edit__email__input').val();
+	let password = $('.edit__password__input').val();
+	let repeatedPassword = $('.edit__repeat__password__input').val();
 	let ratesId = parseInt($('.rates__selector').val());
 	let meterMode = parseInt($('.meter__mode__selector').val());
 
 	if (username === "" || fullName === "" || email === "" || ratesId === 0 || meterMode === 0){
-		alert ("Значения полей не могут быть пустыми")
+		alert ("Значения полей не могут быть пустыми");
 	} else {
-		$.ajax({
-			url: '/api/update_user',     
-			type: 'POST',
-			data : {
-				token : event.data.token,
-				email : email,
-				fullName : fullName,
-				meterMode : meterMode,
-				ratesId : ratesId
-			},
-			dataType: 'json',
-			success: function(data)
-			{
-				alert("Данные обновлены");
-			},
-			statusCode: {
-				404: function (response) {
-					alert("Не найден пользователь для редактирования");
+		let passwordsAreEqual = false;
+		if (password === repeatedPassword) {
+			passwordsAreEqual = true;
+		} else {
+			alert ("Пароли не совпадают");
+		}
+
+
+		if (passwordsAreEqual) {
+			if (password === "") password = "111111111"; // при вводе '111111111' пароль не обновится
+			$.ajax({
+				url: '/api/update_profile',     
+				type: 'POST',
+				data : {
+					token : event.data.token,
+					email : email,
+					fullName : fullName,
+					meterMode : meterMode,
+					ratesId : ratesId,
+					password : password
 				},
-				500: function (response) {
-					alert("При обновлении произошла ошибка");
-				}
-			},
-		})
+				dataType: 'json',
+				success: function(data)
+				{
+					let newToken = data.responseBody.apiToken;
+					setCookie("token", newToken);
+					alert("Данные обновлены");
+				},
+				statusCode: {
+					404: function (response) {
+						alert("Не найден пользователь для редактирования");
+					},
+					500: function (response) {
+						alert("При обновлении произошла ошибка");
+					}
+				},
+			})
+		}
 
 	}
 });
