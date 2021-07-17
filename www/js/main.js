@@ -84,11 +84,11 @@ function getCookie(cname) {
 }
 return "";
 }
-//удалить куки с атрибутом token
-function deleteCookie(){
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+//удалить куки (имя атрибута)
+function eraseCookie(name) {
+    setCookie(name,"",-1);
 }
-
+//
 function getval(token) {
     let queryUrl = "/api/get_user_info?token=" + token;
     jQuery.getJSON(queryUrl, function(data) {
@@ -96,6 +96,14 @@ function getval(token) {
         alert(data['responseBody'].avg.value);
     });
 }
+//
+function setCookie(name,value) {
+    var date = new Date();
+    date.setTime(date.getTime() + (10 * 365 * 24 * 60 * 60 *1000));
+    var expires = "; expires=" + date.toGMTString();
+    document.cookie = name + "=" + value + expires + "; path=/; secure";
+}
+
 //получить всю информацию о пользователе по его токену
 function getUserInfo(token){
 
@@ -110,9 +118,8 @@ function getUserInfo(token){
         userData = json.responseBody;
       },
       error: function (error) {
-        alert ("При получении данных произошла ошибка");
-        //возможно, проблема с куками, так что удаляем
-        deleteCookie();
+        // обычно эта ошибка будет возникать, если в атрибут token записан уже неактуальный ключ, поэтому удаляем его 
+        eraseCookie("token");
       }
     });
 

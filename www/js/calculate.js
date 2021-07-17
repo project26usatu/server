@@ -167,7 +167,7 @@ function createPdfIfDualMode(tokenCookie){
 			consumptionBySecondMeter : consumptionBySecondMeter,
 			secondMeterAmount : secondMeterAmount
         },
-        dataType: 'json',                   
+        dataType: 'json',
         success: function(data)
         {
         	let pdfDocDownloadLink = "http://" + location.host  + data.responseBody;
