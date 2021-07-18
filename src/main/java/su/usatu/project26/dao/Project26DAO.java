@@ -7,7 +7,7 @@ import su.usatu.project26.model.*;
 public interface Project26DAO {
 	public Rates getRatesById(int id);
 
-	public void editRates(Rates updatingRates, String editorName);
+	public boolean editRates(String token, Rates rates);
 
 	public boolean addUser(User user, String tableName);
 

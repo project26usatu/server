@@ -61,25 +61,31 @@ public class Project26DAOImplementation implements Project26DAO {
 	}
 
 	@Override
-	public void editRates(Rates updatingRates, String editorName) {
-		String sqlUpdate = "UPDATE rates SET updated_at = UNIX_TIMESTAMP(), updated_by = '" + editorName
-				+ "', single_rate_price = " + updatingRates.single_rate_price + ", daily_rate_price = "
-				+ updatingRates.daily_rate_price + ", night_rate_price = " + updatingRates.night_rate_price
-				+ ", peak_zone_rate_price = " + updatingRates.peak_zone_rate_price + ", semipeak_zone_rate_price = "
-				+ updatingRates.semipeak_zone_rate_price + ", night_zone_rate_price = "
-				+ updatingRates.night_zone_rate_price + " WHERE rates_set_id = " + updatingRates.id + " ;";
+	public boolean editRates(String token, Rates rates) {
+		try {
+			User user = new User();
+			user = getUserByToken(token, "users");
+			String sqlUpdate = "UPDATE rates SET single_rate_price = ?, daily_rate_price = ?, night_rate_price = ?, peak_zone_rate_price = ?, semipeak_zone_rate_price = ?, night_zone_rate_price = ?, updated_at = UNIX_TIMESTAMP(), updated_by = ? WHERE rates_set_id = ?";
+			Connection conn = MySQLJDBCUtil.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sqlUpdate);
+			pstmt.setDouble(1, rates.single_rate_price);
+			pstmt.setDouble(2, rates.daily_rate_price);
+			pstmt.setDouble(3, rates.night_rate_price);
+			pstmt.setDouble(4, rates.peak_zone_rate_price);
+			pstmt.setDouble(5, rates.semipeak_zone_rate_price);
+			pstmt.setDouble(6, rates.night_zone_rate_price);
+			pstmt.setInt(7, user.getId());
+			pstmt.setInt(8, rates.id);
+			pstmt.executeUpdate();
+			pstmt.close();
 
-		try (Connection conn = MySQLJDBCUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
+			return true;
+		} catch (SQLException e) {
+			output = e.getMessage();
+			e.printStackTrace();
 
-			int rowAffected = pstmt.executeUpdate();
-			output = String.format("Row affected %d", rowAffected);
-
-		} catch (SQLException ex) {
-			output = ex.getMessage();
-			System.out.println(ex.getMessage());
+			return false;
 		}
-
 	}
 
 	@Override
@@ -112,17 +118,17 @@ public class Project26DAOImplementation implements Project26DAO {
 	@Override
 	public User getUserByToken(String token, String tableName) {
 		User user = new User();
-		//set guest credentials by default
+		// set guest credentials by default
 		user.setId(1);
 		user.setUsername("guest");
 		user.setGroupId(3);
-		
+
 		String sqlQuery = "SELECT * FROM " + tableName + " WHERE api_token = '" + token + "';";
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sqlQuery);) {
-			
+
 			while (rs.next()) {
 				user.setId(rs.getInt("id"));
 				user.setUsername(rs.getString("username"));
@@ -146,21 +152,21 @@ public class Project26DAOImplementation implements Project26DAO {
 
 		return user;
 	}
-	
+
 	@Override
 	public User getUserByUsername(String username, String tableName) {
 		User user = new User();
-		//set guest credentials by default
+		// set guest credentials by default
 		user.setId(1);
 		user.setUsername("guest");
 		user.setGroupId(3);
-		
+
 		String sqlQuery = "SELECT * FROM " + tableName + " WHERE username = '" + username + "';";
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sqlQuery);) {
-			
+
 			while (rs.next()) {
 				user.setId(rs.getInt("id"));
 				user.setUsername(rs.getString("username"));
@@ -353,13 +359,15 @@ public class Project26DAOImplementation implements Project26DAO {
 		user = getUserByToken(token, "users");
 		int userId = user.getId();
 
-		String sqlUpdate = "DELETE FROM reports WHERE document_name = '" + documentName + "' AND owner_id = " + userId + ";";
+		String sqlUpdate = "DELETE FROM reports WHERE document_name = '" + documentName + "' AND owner_id = " + userId
+				+ ";";
 
 		try (Connection conn = MySQLJDBCUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
 
 			int rowAffected = pstmt.executeUpdate();
-			if (rowAffected == 1) deletionStatus = true;
+			if (rowAffected == 1)
+				deletionStatus = true;
 
 		} catch (SQLException ex) {
 			output = ex.getMessage();

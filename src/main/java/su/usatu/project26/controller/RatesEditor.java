@@ -47,10 +47,8 @@ public class RatesEditor extends HttpServlet {
 		rates.semipeak_zone_rate_price = Double.parseDouble(request.getParameter("semipeak_zone_rate_price"));
 		rates.night_zone_rate_price = Double.parseDouble(request.getParameter("night_zone_rate_price"));
 
-		String username = "user";
-
 		if (groupId == 1) {
-			dao.editRates(rates, username);
+			dao.editRates(token, rates);
 			jsonOutput = JsonResponseUtil.formJsonResponse("success", "Изменения внесены", null);
 			out.println(jsonOutput);
 		} else {
