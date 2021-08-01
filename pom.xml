@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>su.usatu.project26</groupId>
 	<artifactId>api</artifactId>
-	<version>0.3</version>
+	<version>0.31</version>
 	<packaging>war</packaging>
 	<name>Project26API</name>
-	<description>Course work by team 26: Server-side API application</description>
+	<description>Project26 API application</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
