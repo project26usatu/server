@@ -17,16 +17,21 @@ function login(){
             password: password
         },
         dataType: 'json',                   
-        success: function(data)
+        success: function(json)
         {
-      		// Логин успешен - перебрасываем на главную
+      		//логин успешен
+            userData = json.responseBody;
+            setCookie("token", userData.apiToken);
+            console.log(userData.username);
+            setCookie("username", userData.username);
+            //перебрасываем на главную
             window.location.replace("../");
         },
         statusCode: {
         	401: function(data) {
                 //Неудачный логин (при ошибке 401)
-         		alert("Неправильный логин/пароль");
-      	}
+                alert("Неправильный логин/пароль");
+            }
         },
     })
 

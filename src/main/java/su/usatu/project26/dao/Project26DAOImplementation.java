@@ -190,6 +190,43 @@ public class Project26DAOImplementation implements Project26DAO {
 
 		return user;
 	}
+	
+	@Override
+	public User getUserInfoByToken(String token, String tableName) {
+		User user = new User();
+		// set guest credentials by default
+		user.setId(1);
+		user.setUsername("guest");
+		user.setGroupId(3);
+
+		String sqlQuery = "SELECT * FROM " + tableName + " WHERE api_token = '" + token + "';";
+
+		try (Connection conn = MySQLJDBCUtil.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sqlQuery);) {
+
+			while (rs.next()) {
+				user.setId(rs.getInt("id"));
+				user.setUsername(rs.getString("username"));
+				user.setEmail(rs.getString("email"));
+				user.setFullName(rs.getString("full_name"));
+				user.setGroupId(rs.getInt("group_id"));
+				user.setApiToken(rs.getString("api_token"));
+				user.setMeterMode(rs.getInt("meter_mode"));
+				user.setRatesSetId(rs.getInt("rates_set_id"));
+
+				break;
+
+			}
+
+		} catch (SQLException ex) {
+			output = ex.getMessage();
+			System.out.println(ex.getMessage());
+		}
+
+		return user;
+	}
+
 
 	@Override
 	public boolean updateUser(String token, User user) {
