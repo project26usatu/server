@@ -37,10 +37,15 @@ function register(){
     		password: password
     	},
     	dataType: 'json',                   
-    	success: function(data)
+    	success: function(json)
     	{
-      		// Регистрация успешна - перебрасываем на главную
-      		window.location.replace("../");
+            //регистрация успешна
+            userData = json.responseBody;
+            setCookie("token", userData.apiToken);
+            console.log(userData.username);
+            setCookie("username", userData.username);
+            //перебрасываем на главную
+            window.location.replace("../");
       	},
       	statusCode: {
       		409: function(error) {

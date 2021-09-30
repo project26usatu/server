@@ -79,14 +79,9 @@ public class Register extends HttpServlet {
 					jsonOutput = JsonResponseUtil.formJsonResponse("failure", "SQLException");
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				} else {
-
-					Cookie cookie = new Cookie("token", apiKey);
-					cookie.setPath("/");
-					cookie.setSecure(true);
-					cookie.setMaxAge(10 * 365 * 24 * 60 * 60);
-					response.addCookie(cookie);
-
-					jsonOutput = JsonResponseUtil.formJsonResponse("success", "Registration successful", apiKey);
+					User userInfo = new User();
+					userInfo = dao.getUserInfoByToken(apiKey, "users");
+					jsonOutput = JsonResponseUtil.formJsonResponse("success", "Registration successful", userInfo);
 				}
 
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

@@ -71,7 +71,6 @@ public class UserUpdater extends HttpServlet {
 				user.setPassword(hashedPassword);
 				user.setSalt(salt);
 				user.setApiToken(apiKey);
-
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				jsonOutput = JsonResponseUtil.formJsonResponse("failure", e.getMessage());
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Status code 500
@@ -81,22 +80,20 @@ public class UserUpdater extends HttpServlet {
 		}
 
 		if (dao.updateUser(token, user)) {
-			Cookie cookie = new Cookie("token", token);
-			cookie.setPath("/");
-			cookie.setSecure(true);
-			cookie.setMaxAge(10 * 365 * 24 * 60 * 60);
-			response.addCookie(cookie);
-
-			jsonOutput = JsonResponseUtil.formJsonResponse("success", "Operation successful", user);
+			User updatedUser = new User();
+			String username = user.getUsername();
+			updatedUser = dao.getUserByUsername(username, "users");
+			String newToken = updatedUser.getApiToken();
+			User userInfo = new User();
+			userInfo = dao.getUserInfoByToken(newToken, "users");
+			jsonOutput = JsonResponseUtil.formJsonResponse("success", "Operation successful", userInfo);
 			out.println(jsonOutput);
-
 		} else {
 			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Update failed");
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Status code 500
 			out.println(jsonOutput);
 			return;
 		}
-
 	}
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -110,5 +107,4 @@ public class UserUpdater extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
 		out.println(jsonOutput);
 	}
-
 }

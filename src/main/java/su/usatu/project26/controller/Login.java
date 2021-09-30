@@ -52,17 +52,14 @@ public class Login extends HttpServlet {
 			} else {
 				
 				User loggedUser = new User();
+				User userInfo = new User();
+				
 				loggedUser = dao.getUserByUsername(username, "users");
+				String token = loggedUser.getApiToken();
+				userInfo = dao.getUserInfoByToken(token, "users");
+				
 
-				String apiKey = loggedUser.getApiToken();
-
-				Cookie cookie = new Cookie("token", apiKey);
-				cookie.setPath("/");
-				cookie.setSecure(true);
-				cookie.setMaxAge(10 * 365 * 24 * 60 * 60);
-				response.addCookie(cookie);
-
-				jsonOutput = JsonResponseUtil.formJsonResponse("success", "Login successful", apiKey);
+				jsonOutput = JsonResponseUtil.formJsonResponse("success", "Login successful", userInfo);
 			}
 		}
 

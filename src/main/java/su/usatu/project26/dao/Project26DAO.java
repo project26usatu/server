@@ -15,6 +15,8 @@ public interface Project26DAO {
 	
 	public User getUserByUsername(String username, String tableName);
 	
+	public User getUserInfoByToken(String token, String tableName);
+	
 	public boolean updateUser(String token, User user);
 
 	public boolean checkDbValueIfUnique(String rowLabel, String value, String tableName);
